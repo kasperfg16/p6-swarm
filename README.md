@@ -1,7 +1,5 @@
 # p6-swarm
-
-# Group 564, Automated Robotic Vision Light Configuration
-5th semester github for our project at AAU.
+6th semester github for our project at AAU.
 
 ## Dependencies
 Dependency | Command to install
