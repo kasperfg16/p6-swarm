@@ -1,6 +1,6 @@
 # p6-swarm
 
-6th semester github for our project at AAU.
+github for 6th semester project at AAU.
 
 ## Disclaimer
 
