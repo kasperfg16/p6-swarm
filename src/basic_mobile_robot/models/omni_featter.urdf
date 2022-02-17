@@ -1,0 +1,110 @@
+<?xml version="1.0" ?>
+<robot name="OMNIFEATTER" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- ********************************************************  -->
+  <!-- ****************** ROBOT CONSTANTS *********************  -->
+  <!-- ********************************************************  -->
+
+  <!-- Define the size of the robot's main chassis in meters -->
+  <xacro:property name="BASE_LENGHT" value="0.2"/>
+  <xacro:property name="BASE_HEIGHT" value="0.2"/>
+  <xacro:property name="BASE_WIDTH" value="0.2"/>
+  
+  <!-- ********************************************************  -->
+  <!-- ****************** LINKS *******************************  -->
+  <!-- ********************************************************  -->
+
+  <!-- ****************** BASE LINK *******************************  -->
+  <link name="BASE_LINK">
+    <visual>
+      <geometry>
+        <box size="${BASE_LENGHT} ${BASE_HEIGHT} ${BASE_WIDTH}"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- ****************** LEFT FRONT WHEEL LINK *******************************  -->
+
+  <link name="L_F_WHEEL">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.05"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- ****************** RIGHT FRONT WHEEL LINK *******************************  -->
+
+  <link name="R_F_WHEEL">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.05"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- ****************** LEFT BACK WHEEL LINK *******************************  -->
+
+  <link name="L_B_WHEEL">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.05"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- ****************** RIGHT BACK WHEEL LINK *******************************  -->
+
+  <link name="R_B_WHEEL">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.05"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- ********************************************************  -->
+  <!-- ****************** JOINTS ******************************  -->
+  <!-- ********************************************************  -->
+
+  <!-- ****************** BASE TO RIGHT FRONT WHEEL *******************************  -->
+
+  <joint name="BASE_LINK_TO_R_F_WHEEL" type="revolute">
+    <parent link="BASE_LINK"/>
+    <child link="R_F_WHEEL"/>
+    <origin xyz="${BASE_LENGHT/2} ${BASE_WIDTH/2} ${BASE_HEIGHT/2}"/>
+    <limit upper="3.1415" lower="-3.1415" effort="30" velocity="5.0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- ****************** BASE TO LEFT FRONT WHEEL *******************************  -->
+
+  <joint name="BASE_LINK_TO_L_F_WHEEL" type="revolute">
+    <parent link="BASE_LINK"/>
+    <child link="L_F_WHEEL"/>
+    <origin xyz="${BASE_LENGHT/2} ${BASE_WIDTH/2} ${BASE_HEIGHT/2}"/>
+    <limit upper="3.1415" lower="-3.1415" effort="30" velocity="5.0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- ****************** BASE TO RIGHT BACK WHEEL *******************************  -->
+
+  <joint name="BASE_LINK_TO_R_B_WHEEL" type="revolute">
+    <parent link="BASE_LINK"/>
+    <child link="R_B_WHEEL"/>
+    <origin xyz="-${BASE_LENGHT/2} -${BASE_WIDTH/2} -${BASE_HEIGHT/2}"/>
+    <limit upper="3.1415" lower="-3.1415" effort="30" velocity="5.0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- ****************** BASE TO LEFT BACK WHEEL *******************************  -->
+
+  <joint name="BASE_LINK_TO_L_B_WHEEL" type="revolute">
+    <parent link="BASE_LINK"/>
+    <child link="L_B_WHEEL"/>
+    <origin xyz="-${BASE_LENGHT/2} -${BASE_WIDTH/2} -${BASE_HEIGHT/2}"/>
+    <limit upper="3.1415" lower="-3.1415" effort="30" velocity="5.0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+</robot>
