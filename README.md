@@ -6,10 +6,12 @@
 
 This project is using ROS2 galactic. Other configurations are used at own dispare and misery
 
-## prerequisites
+## Prerequisites
 
 1.
-    Install ROS2 galaxtic: <https://docs.ros.org/en/galactic/Installation/Ubuntu-Development-Setup.html>
+    Install ROS2 galaxtic:
+    
+    <https://docs.ros.org/en/galactic/Installation/Ubuntu-Development-Setup.html>
 
 ### ROS packages
 
@@ -32,18 +34,24 @@ None yet
 
 1. In a terminal:
 
+    a)
+    
     Create a workspace folder with a **PATH** of your choice. Remember/write down the **PATH** for later:
 
     ``` bash
     mkdir PATH
     ```
 
+    b)
+    
     clone the reposetory:
 
     ``` bash
     git clone https://github.com/kasperfg16/p6-swarm.git
     ```
 
+    c)
+    
     Go into the workspace folder and build the package:
 
     ``` bash
@@ -51,6 +59,8 @@ None yet
     colcon build
     ```
 
+    d)
+    
     Add some commands to .bashrc file, so you don't have to source the project every time.
 
     ``` bash
@@ -66,8 +76,10 @@ None yet
 
 ## How to run
 
-1. In a terminal
+1. Open a new terminal
 
+    a) 
+    
     Launch the project:
 
     ``` bash
