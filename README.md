@@ -10,7 +10,7 @@ This project is using ROS2 galactic. Other configurations are used at own dispar
 
 1.
     Install ROS2 galaxtic:
-    
+
     <https://docs.ros.org/en/galactic/Installation/Ubuntu-Development-Setup.html>
 
 ### ROS packages
@@ -35,7 +35,7 @@ None yet
 1. In a terminal:
 
     a)
-    
+
     Create a workspace folder with a **PATH** of your choice. Remember/write down the **PATH** for later:
 
     ``` bash
@@ -43,7 +43,7 @@ None yet
     ```
 
     b)
-    
+
     clone the reposetory:
 
     ``` bash
@@ -51,16 +51,17 @@ None yet
     ```
 
     c)
-    
+
     Go into the workspace folder and build the package:
 
     ``` bash
     cd PATH
+    mkdir config launch maps meshes models params rviz worlds
     colcon build
     ```
 
     d)
-    
+
     Add some commands to .bashrc file, so you don't have to source the project every time.
 
     ``` bash
@@ -78,8 +79,8 @@ None yet
 
 1. Open a new terminal
 
-    a) 
-    
+    a)
+
     Launch the project:
 
     ``` bash
@@ -96,6 +97,7 @@ None yet
 ## Links
 
 ## Related/inspiration projects
+
 <https://automaticaddison.com/how-to-create-a-simulated-mobile-robot-in-ros-2-using-urdf/>
 
 ## Topology overview
