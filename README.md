@@ -75,6 +75,12 @@ None yet
     echo 'source PATH/install/setup.bash' >> ~/.bashrc
     ```
 
+    Install the `gazebo_ros_pkgs` package.
+
+    ``` bash
+    sudo apt install ros-galactic-gazebo-ros-pkgs
+    ```
+
 ## How to run
 
 1. Open a new terminal

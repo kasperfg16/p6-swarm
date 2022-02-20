@@ -11,14 +11,18 @@
   <xacro:property name="BASE_WIDTH" value="0.2"/> <!-- m-->
 
   <!-- Size of mechanum wheels in meters-->
-  <xacro:property name="MECANUM_WHEEL_DIAMETER" value="0.10"/> <!-- m-->
+  <xacro:property name="MECANUM_WHEEL_DIAMETER" value="0.20"/> <!-- m-->
   <xacro:property name="MECANUM_WHEEL_WIDTH" value="0.05"/> <!-- m-->
 
   <!-- Limits of Mecanum Wheel joints-->
   <xacro:property name="MECANUM_WHEEL_MAX_JOINT_VEL" value="5.0"/> <!-- rad/s-->
   <xacro:property name="MECANUM_WHEEL_MAX_EFFORT" value="30"/>
 
-  <!-- Placement of wheels-->
+  <!-- *********************************************************  -->
+  <!-- ********** ROBOT CONSTANTS (NO NEED TO CHANGE) **********  -->
+  <!-- *********************************************************  -->
+
+  <!-- Placement of Mecanum Wheel wheels-->
   <xacro:property name="BACK_WHEEL" value="-1"/>
   <xacro:property name="FRONT_WHEEL" value="1"/>
   <xacro:property name="LEFT_WHEEL" value="-1"/>
@@ -29,38 +33,11 @@
   <!-- ********************************************************  -->
 
   <!-- ****************** MECANUM WHEELS *******************************  -->
-  
-  <xacro:macro name="Mecanum_Wheel" params="PREFIX WIDTH DIAMETER">
-    
-    <link name="${PREFIX}">
-      <visual>
-        <geometry>
-          <cylinder radius="${DIAMETER/2}" length="${WIDTH}"/>
-        </geometry>
-      </visual>
 
-      <collision>
-        <geometry>
-          <cylinder radius="${DIAMETER/2}" length="${WIDTH}"/>
-        </geometry>
-      </collision>
-    </link>
-  </xacro:macro>
-
-  <!-- ****************** MECANUM WHEELS JOINTS *******************************  -->
-  
-  <xacro:macro name="Mecanum_Wheel_joint" params="WHEEL MECANUM_WHEEL_MAX_JOINT_VEL MECANUM_WHEEL_MAX_EFFORT FR_BA LE_RI BASE_LENGHT BASE_WIDTH BASE_HEIGHT  MECANUM_WHEEL_WIDTH BASE_LINK">
-    <joint name="BASE_LINK_TO_${WHEEL}" type="revolute">
-      <parent link="${BASE_LINK}"/>
-      <child link="${WHEEL}"/>
-      <origin xyz="${FR_BA*BASE_LENGHT/2} ${LE_RI*BASE_WIDTH/2+MECANUM_WHEEL_WIDTH/2} -${BASE_HEIGHT/2}" rpy="${LE_RI*pi/2} 0 0"/>
-      <limit effort="${MECANUM_WHEEL_MAX_EFFORT}" velocity="${MECANUM_WHEEL_MAX_JOINT_VEL}"/>
-      <axis xyz="0 0 1"/>
-    </joint>
-</xacro:macro>
+  <xacro:include filename="$(find basic_mobile_robot)/models/wheels_urdf/mecanum_wheels_macro.urdf" />
   
   <!-- ********************************************************  -->
-  <!-- ****************** LINKS *******************************  -->
+  <!-- ****************** Assembly ****************************  -->
   <!-- ********************************************************  -->
 
   <!-- ****************** BASE LINK *******************************  -->
@@ -78,41 +55,30 @@
     </collision>
   </link>
 
-  <!-- ****************** LEFT FRONT WHEEL LINK *******************************  -->
-
-  <xacro:Mecanum_Wheel PREFIX="L_F_WHEEL" WIDTH="${MECANUM_WHEEL_WIDTH}" DIAMETER="${MECANUM_WHEEL_DIAMETER}" />
-
-  <!-- ****************** RIGHT FRONT WHEEL LINK *******************************  -->
-
-  <xacro:Mecanum_Wheel PREFIX="R_F_WHEEL" WIDTH="${MECANUM_WHEEL_WIDTH}" DIAMETER="${MECANUM_WHEEL_DIAMETER}" />
-
-  <!-- ****************** LEFT BACK WHEEL LINK *******************************  -->
-
-  <xacro:Mecanum_Wheel PREFIX="L_B_WHEEL" WIDTH="${MECANUM_WHEEL_WIDTH}" DIAMETER="${MECANUM_WHEEL_DIAMETER}" />
-
-  <!-- ****************** RIGHT BACK WHEEL LINK *******************************  -->
-
-  <xacro:Mecanum_Wheel PREFIX="R_B_WHEEL" WIDTH="${MECANUM_WHEEL_WIDTH}" DIAMETER="${MECANUM_WHEEL_DIAMETER}" />
-
-  <!-- ********************************************************  -->
-  <!-- ****************** JOINTS ******************************  -->
-  <!-- ********************************************************  -->
-
-  <!-- ****************** BASE TO RIGHT FRONT WHEEL *******************************  -->
-
-  <joint name="BASE_LINK_TO_R_F_WHEEL" type="revolute">
-    <parent link="BASE_LINK"/>
-    <child link="R_F_WHEEL"/>
-    <origin xyz="${BASE_LENGHT/2} -${BASE_WIDTH/2+MECANUM_WHEEL_WIDTH/2} -${BASE_HEIGHT/2}" rpy="${pi/2} 0 0"/>
-    <limit upper="3.1415" lower="-3.1415" effort="30" velocity="5.0"/>
-    <axis xyz="0 0 1"/>
-  </joint>
-
-  <!--
-  <xacro:Mecanum_Wheel_joint
-  WHEEL="R_F_WHEEL" 
+  <!-- ****************** LEFT FRONT WHEEL *******************************  -->
+  
+  <xacro:Mecanum_Wheel
+  PREFIX="L_F_WHEEL"
+  WIDTH="${MECANUM_WHEEL_WIDTH}"
+  DIAMETER="${MECANUM_WHEEL_DIAMETER}"
   MECANUM_WHEEL_MAX_JOINT_VEL="${MECANUM_WHEEL_MAX_JOINT_VEL}"
-  MECANUM_WHEEL_MAX_EFFORT = "${MECANUM_WHEEL_MAX_EFFORT}"
+  MECANUM_WHEEL_MAX_EFFORT="${MECANUM_WHEEL_MAX_EFFORT}"
+  FR_BA="${FRONT_WHEEL}"
+  LE_RI="${LEFT_WHEEL}"
+  BASE_LENGHT="${BASE_LENGHT}"
+  BASE_WIDTH="${BASE_WIDTH}"
+  BASE_HEIGHT="${BASE_HEIGHT}"
+  MECANUM_WHEEL_WIDTH="${MECANUM_WHEEL_WIDTH}"
+  BASE_LINK="BASE_LINK"/>
+
+  <!-- ****************** RIGHT FRONT WHEEL *******************************  -->
+
+  <xacro:Mecanum_Wheel
+  PREFIX="R_F_WHEEL"
+  WIDTH="${MECANUM_WHEEL_WIDTH}"
+  DIAMETER="${MECANUM_WHEEL_DIAMETER}"
+  MECANUM_WHEEL_MAX_JOINT_VEL="${MECANUM_WHEEL_MAX_JOINT_VEL}"
+  MECANUM_WHEEL_MAX_EFFORT="${MECANUM_WHEEL_MAX_EFFORT}"
   FR_BA="${FRONT_WHEEL}"
   LE_RI="${RIGHT_WHEEL}"
   BASE_LENGHT="${BASE_LENGHT}"
@@ -120,86 +86,73 @@
   BASE_HEIGHT="${BASE_HEIGHT}"
   MECANUM_WHEEL_WIDTH="${MECANUM_WHEEL_WIDTH}"
   BASE_LINK="BASE_LINK"/>
-  -->
+
+  <!-- ****************** LEFT BACK WHEEL *******************************  -->
+
+  <xacro:Mecanum_Wheel
+  PREFIX="L_B_WHEEL"
+  WIDTH="${MECANUM_WHEEL_WIDTH}"
+  DIAMETER="${MECANUM_WHEEL_DIAMETER}"
+  MECANUM_WHEEL_MAX_JOINT_VEL="${MECANUM_WHEEL_MAX_JOINT_VEL}"
+  MECANUM_WHEEL_MAX_EFFORT="${MECANUM_WHEEL_MAX_EFFORT}"
+  FR_BA="${BACK_WHEEL}"
+  LE_RI="${LEFT_WHEEL}"
+  BASE_LENGHT="${BASE_LENGHT}"
+  BASE_WIDTH="${BASE_WIDTH}"
+  BASE_HEIGHT="${BASE_HEIGHT}"
+  MECANUM_WHEEL_WIDTH="${MECANUM_WHEEL_WIDTH}"
+  BASE_LINK="BASE_LINK"/>
+
+  <!-- ****************** RIGHT BACK WHEEL *******************************  -->
 
   
+  <xacro:Mecanum_Wheel
+  PREFIX="R_B_WHEEL"
+  WIDTH="${MECANUM_WHEEL_WIDTH}"
+  DIAMETER="${MECANUM_WHEEL_DIAMETER}"
+  MECANUM_WHEEL_MAX_JOINT_VEL="${MECANUM_WHEEL_MAX_JOINT_VEL}"
+  MECANUM_WHEEL_MAX_EFFORT="${MECANUM_WHEEL_MAX_EFFORT}"
+  FR_BA="${BACK_WHEEL}"
+  LE_RI="${RIGHT_WHEEL}"
+  BASE_LENGHT="${BASE_LENGHT}"
+  BASE_WIDTH="${BASE_WIDTH}"
+  BASE_HEIGHT="${BASE_HEIGHT}"
+  MECANUM_WHEEL_WIDTH="${MECANUM_WHEEL_WIDTH}"
+  BASE_LINK="BASE_LINK"/>
 
-  <!-- ****************** BASE TO LEFT FRONT WHEEL *******************************  -->
+  <!-- Joints -->
 
-  <joint name="BASE_LINK_TO_L_F_WHEEL" type="revolute">
+  <joint name="base_to_L_F_WHEEL_joint" type="revolute">
     <parent link="BASE_LINK"/>
     <child link="L_F_WHEEL"/>
     <origin xyz="${BASE_LENGHT/2} ${BASE_WIDTH/2+MECANUM_WHEEL_WIDTH/2} -${BASE_HEIGHT/2}" rpy="${-pi/2} 0 0"/>
-    <limit upper="3.1415" lower="-3.1415" effort="30" velocity="5.0"/>
+    <limit effort="${MECANUM_WHEEL_MAX_EFFORT}" velocity="${MECANUM_WHEEL_MAX_JOINT_VEL}"/>
     <axis xyz="0 0 1"/>
   </joint>
 
-  <!--
-  <xacro:Mecanum_Wheel_joint
-  WHEEL="L_F_WHEEL" 
-  MECANUM_WHEEL_MAX_JOINT_VEL="${MECANUM_WHEEL_MAX_JOINT_VEL}"
-  MECANUM_WHEEL_MAX_EFFORT = "${MECANUM_WHEEL_MAX_EFFORT}"
-  FR_BA="${FRONT_WHEEL}"
-  LE_RI="${RIGHT_WHEEL}"
-  BASE_LENGHT="${BASE_LENGHT}"
-  BASE_WIDTH="${BASE_WIDTH}"
-  BASE_HEIGHT="${BASE_HEIGHT}"
-  MECANUM_WHEEL_WIDTH="${MECANUM_WHEEL_WIDTH}"
-  BASE_LINK="BASE_LINK"/>
-  -->
-
-  
-
-  <!-- ****************** BASE TO RIGHT BACK WHEEL *******************************  -->
-
-  <joint name="BASE_LINK_TO_R_B_WHEEL" type="revolute">
+  <joint name="base_to_R_F_WHEEL_joint" type="revolute">
     <parent link="BASE_LINK"/>
-    <child link="R_B_WHEEL"/>
-    <origin xyz="-${BASE_LENGHT/2} -${BASE_WIDTH/2+MECANUM_WHEEL_WIDTH/2} -${BASE_HEIGHT/2}" rpy="${pi/2} 0 0"/>
-    <limit upper="3.1415" lower="-3.1415" effort="30" velocity="5.0"/>
+    <child link="R_F_WHEEL"/>
+    <origin xyz="${BASE_LENGHT/2} ${BASE_WIDTH/2+MECANUM_WHEEL_WIDTH/2} -${BASE_HEIGHT/2}" rpy="${pi/2} 0 0"/>
+    <limit effort="${MECANUM_WHEEL_MAX_EFFORT}" velocity="${MECANUM_WHEEL_MAX_JOINT_VEL}"/>
     <axis xyz="0 0 1"/>
   </joint>
 
-  <!--
-  <xacro:Mecanum_Wheel_joint
-  WHEEL="R_B_WHEEL" 
-  MECANUM_WHEEL_MAX_JOINT_VEL="${MECANUM_WHEEL_MAX_JOINT_VEL}"
-  MECANUM_WHEEL_MAX_EFFORT = "${MECANUM_WHEEL_MAX_EFFORT}"
-  FR_BA="${FRONT_WHEEL}"
-  LE_RI="${RIGHT_WHEEL}"
-  BASE_LENGHT="${BASE_LENGHT}"
-  BASE_WIDTH="${BASE_WIDTH}"
-  BASE_HEIGHT="${BASE_HEIGHT}"
-  MECANUM_WHEEL_WIDTH="${MECANUM_WHEEL_WIDTH}"
-  BASE_LINK="BASE_LINK"/>
-  -->
-
-  
-
-  <!-- ****************** BASE TO LEFT BACK WHEEL *******************************  -->
-
-  <joint name="BASE_LINK_TO_L_B_WHEEL" type="revolute">
+  <joint name="base_to_L_B_WHEEL_joint" type="revolute">
     <parent link="BASE_LINK"/>
     <child link="L_B_WHEEL"/>
-    <origin xyz="-${BASE_LENGHT/2} ${BASE_WIDTH/2+MECANUM_WHEEL_WIDTH/2} -${BASE_HEIGHT/2} " rpy="${-pi/2} 0 0"/>
-    <limit upper="3.1415" lower="-3.1415" effort="30" velocity="5.0"/>
+    <origin xyz="${BASE_LENGHT/2} ${BASE_WIDTH/2+MECANUM_WHEEL_WIDTH/2} -${BASE_HEIGHT/2}" rpy="${-pi/2} 0 0"/>
+    <limit effort="${MECANUM_WHEEL_MAX_EFFORT}" velocity="${MECANUM_WHEEL_MAX_JOINT_VEL}"/>
     <axis xyz="0 0 1"/>
   </joint>
-  
-  <!--
-  <xacro:Mecanum_Wheel_joint
-  WHEEL="L_B_WHEEL" 
-  MECANUM_WHEEL_MAX_JOINT_VEL="${MECANUM_WHEEL_MAX_JOINT_VEL}"
-  MECANUM_WHEEL_MAX_EFFORT = "${MECANUM_WHEEL_MAX_EFFORT}"
-  FR_BA="${FRONT_WHEEL}"
-  LE_RI="${RIGHT_WHEEL}"
-  BASE_LENGHT="${BASE_LENGHT}"
-  BASE_WIDTH="${BASE_WIDTH}"
-  BASE_HEIGHT="${BASE_HEIGHT}"
-  MECANUM_WHEEL_WIDTH="${MECANUM_WHEEL_WIDTH}"
-  BASE_LINK="BASE_LINK"/>
-  -->
 
-  
+  <joint name="base_to_R_B_WHEEL_joint" type="revolute">
+    <parent link="BASE_LINK"/>
+    <child link="R_B_WHEEL"/>
+    <origin xyz="${BASE_LENGHT/2} ${BASE_WIDTH/2+MECANUM_WHEEL_WIDTH/2} -${BASE_HEIGHT/2}" rpy="${pi/2} 0 0"/>
+    <limit effort="${MECANUM_WHEEL_MAX_EFFORT}" velocity="${MECANUM_WHEEL_MAX_JOINT_VEL}"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
 
 </robot>
