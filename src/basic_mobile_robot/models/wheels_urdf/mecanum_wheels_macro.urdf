@@ -19,13 +19,13 @@
           </collision>
         </link>
 
-        <!--<joint name="base_to_${PREFIX}_joint" type="revolute">
+        <joint name="base_to_${PREFIX}_joint" type="revolute">
           <parent link="${BASE_LINK}"/>
           <child link="${PREFIX}"/>
-          <origin xyz="${FR_BA*BASE_LENGHT/2} ${LE_RI*BASE_WIDTH/2+MECANUM_WHEEL_WIDTH/2} -${BASE_HEIGHT/2}" rpy="${LE_RI*pi/2} 0 0"/>
-          <limit effort="${MECANUM_WHEEL_MAX_EFFORT}" velocity="${MECANUM_WHEEL_MAX_JOINT_VEL}"/>
+          <origin xyz="${FR_BA*BASE_LENGHT/2} ${LE_RI*(BASE_WIDTH/2+MECANUM_WHEEL_WIDTH/2)} -${BASE_HEIGHT/2}" rpy="${LE_RI*pi/2} 0 0"/>
+          <limit upper="3.1415" lower="-3.1415" effort="${MECANUM_WHEEL_MAX_EFFORT}" velocity="${MECANUM_WHEEL_MAX_JOINT_VEL}"/>
           <axis xyz="0 0 1"/>
-        </joint> -->
+        </joint>
         
         
       </xacro:macro>
