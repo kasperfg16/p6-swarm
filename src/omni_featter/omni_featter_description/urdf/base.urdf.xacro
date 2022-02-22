@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="Base_link" params="ROBOT_MASS MECANUM_WHEEL_MASS BASE_LENGHT BASE_WIDTH BASE_HEIGHT">
+
+    <!-- ********************************************************  -->
+    <!-- ****************** MACROS ******************************  -->
+    <!-- ********************************************************  -->
+
+    <!-- ******************* INERTIAL MACROS  *******************  -->
+
+    <xacro:include filename="$(find omni_featter_description)/urdf/basic_macros/inertial_macros.urdf.xacro" />
+
+    <!-- ********************************************************  -->
+    <!-- *************** MECANUM WHEEL DEFINITION ***************  -->
+    <!-- ********************************************************  -->
+
+    <link name="BASE_LINK">
+
+      <visual>
+        <geometry>
+          <box size="${BASE_LENGHT} ${BASE_WIDTH} ${BASE_HEIGHT}" />
+        </geometry>
+      </visual>
+
+      <collision>
+        <geometry>
+          <box size="${BASE_LENGHT} ${BASE_WIDTH} ${BASE_HEIGHT}" />
+        </geometry>
+      </collision>
+      
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="${MECANUM_WHEEL_MASS}" />
+        <inertia ixx="${ROBOT_MASS-MECANUM_WHEEL_MASS*(BASE_WIDTH*BASE_WIDTH+BASE_HEIGHT*BASE_HEIGHT)/12}" ixy="0" ixz="0" iyy="${ROBOT_MASS-MECANUM_WHEEL_MASS*(BASE_LENGHT*BASE_LENGHT+BASE_HEIGHT*BASE_HEIGHT)/12}" iyz="0" izz="${ROBOT_MASS-MECANUM_WHEEL_MASS*(BASE_LENGHT*BASE_LENGHT+BASE_HEIGHT*BASE_HEIGHT)/12}" />
+      </inertial>
+    </link>
+
+
+  </xacro:macro>
+</robot>

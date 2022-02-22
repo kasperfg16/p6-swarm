@@ -90,7 +90,7 @@ None yet
     Launch the project:
 
     ``` bash
-    ros2 launch basic_mobile_robot basic_mobile_bot_v1.launch.py
+    ros2 launch omni_featter_description omni_featter_desription.launch.py
     ```
 
 ## Rules
