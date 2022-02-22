@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <robot name="OMNIFEATTER" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- ********************************************************  -->
@@ -6,57 +6,65 @@
   <!-- ********************************************************  -->
 
   <!-- Define the size of the robot's main chassis in meters -->
-  <xacro:property name="BASE_LENGHT" value="0.4"/> <!-- m-->
-  <xacro:property name="BASE_HEIGHT" value="0.1"/> <!-- m-->
-  <xacro:property name="BASE_WIDTH" value="0.2"/> <!-- m-->
+  <xacro:property name="BASE_LENGHT" value="0.4" /> <!-- m-->
+  <xacro:property name="BASE_HEIGHT" value="0.1" /> <!-- m-->
+  <xacro:property name="BASE_WIDTH" value="0.2" /> <!-- m-->
 
   <!-- Size of mechanum wheels in meters-->
-  <xacro:property name="MECANUM_WHEEL_DIAMETER" value="0.10"/> <!-- m-->
-  <xacro:property name="MECANUM_WHEEL_WIDTH" value="0.05"/> <!-- m-->
+  <xacro:property name="MECANUM_WHEEL_DIAMETER" value="0.10" /> <!-- m-->
+  <xacro:property name="MECANUM_WHEEL_WIDTH" value="0.05" /> <!-- m-->
 
   <!-- Limits of Mecanum Wheel joints-->
-  <xacro:property name="MECANUM_WHEEL_MAX_JOINT_VEL" value="5.0"/> <!-- rad/s-->
-  <xacro:property name="MECANUM_WHEEL_MAX_EFFORT" value="30"/>
+  <xacro:property name="MECANUM_WHEEL_MAX_JOINT_VEL" value="5.0" /> <!-- rad/s-->
+  <xacro:property name="MECANUM_WHEEL_MAX_EFFORT" value="30" />
+  
+  <!-- Mecanum Wheel mass -->
+  <xacro:property name="MECANUM_WHEEL_MASS" value="0.4" /> <!-- kg-->
+
+  <!-- Robot mass -->
+  <xacro:property name="ROBOT_MASS" value="2" /> <!-- kg-->
 
   <!-- *********************************************************  -->
   <!-- ********** ROBOT CONSTANTS (NO NEED TO CHANGE) **********  -->
   <!-- *********************************************************  -->
 
   <!-- Placement of Mecanum Wheel wheels-->
-  <xacro:property name="BACK_WHEEL"   value="-1"/>
-  <xacro:property name="FRONT_WHEEL"  value="1"/>
-  <xacro:property name="LEFT_WHEEL"   value="1"/>
-  <xacro:property name="RIGHT_WHEEL"  value="-1"/>
+  <xacro:property name="BACK_WHEEL" value="-1" />
+  <xacro:property name="FRONT_WHEEL" value="1" />
+  <xacro:property name="LEFT_WHEEL" value="1" />
+  <xacro:property name="RIGHT_WHEEL" value="-1" />
 
   <!-- ********************************************************  -->
   <!-- ****************** MACROS ******************************  -->
   <!-- ********************************************************  -->
 
-  <!-- ****************** MECANUM WHEELS *******************************  -->
+  <!-- *********************** BASE LINK **********************  -->
+
+  <xacro:include filename="$(find basic_mobile_robot)/models/base.urdf" />
+  
+  <!-- ******************** MECANUM WHEELS ********************  -->
 
   <xacro:include filename="$(find basic_mobile_robot)/models/wheels_urdf/mecanum_wheels_macro.urdf" />
-  
+
+  <!-- ******************* INERTIAL MACROS  *******************  -->
+
+  <xacro:include filename="$(find basic_mobile_robot)/models/basic_macros/inertial_macros.urdf" />
+
   <!-- ********************************************************  -->
-  <!-- ****************** Assembly ****************************  -->
+  <!-- ****************** ASSEMBLY ****************************  -->
   <!-- ********************************************************  -->
 
-  <!-- ****************** BASE LINK *******************************  -->
-  <link name="BASE_LINK">
-    <visual>
-      <geometry>
-        <box size="${BASE_LENGHT} ${BASE_WIDTH} ${BASE_HEIGHT}"/>
-      </geometry>
-    </visual>
+  <!-- ********************** BASE LINK ***********************  -->
 
-    <collision>
-      <geometry>
-        <box size="${BASE_LENGHT} ${BASE_WIDTH} ${BASE_HEIGHT}"/>
-      </geometry>
-    </collision>
-  </link>
+  <xacro:Base_link
+  ROBOT_MASS="${ROBOT_MASS}"
+  MECANUM_WHEEL_MASS="${MECANUM_WHEEL_MASS}"
+  BASE_LENGHT="${BASE_LENGHT}"
+  BASE_WIDTH="${BASE_WIDTH}"
+  BASE_HEIGHT="${BASE_HEIGHT}"/>
 
   <!-- ****************** LEFT FRONT WHEEL *******************************  -->
-  
+
   <xacro:Mecanum_Wheel
   PREFIX="L_F_WHEEL"
   WIDTH="${MECANUM_WHEEL_WIDTH}"
@@ -69,7 +77,8 @@
   BASE_WIDTH="${BASE_WIDTH}"
   BASE_HEIGHT="${BASE_HEIGHT}"
   MECANUM_WHEEL_WIDTH="${MECANUM_WHEEL_WIDTH}"
-  BASE_LINK="BASE_LINK"/>
+  BASE_LINK="BASE_LINK"
+  WHEEL_MASS="${MECANUM_WHEEL_MASS}"/>
 
   <!-- ****************** RIGHT FRONT WHEEL *******************************  -->
 
@@ -79,13 +88,13 @@
   DIAMETER="${MECANUM_WHEEL_DIAMETER}"
   MECANUM_WHEEL_MAX_JOINT_VEL="${MECANUM_WHEEL_MAX_JOINT_VEL}"
   MECANUM_WHEEL_MAX_EFFORT="${MECANUM_WHEEL_MAX_EFFORT}"
-  FR_BA="${FRONT_WHEEL}"
-  LE_RI="${RIGHT_WHEEL}"
+  FR_BA="${FRONT_WHEEL}" LE_RI="${RIGHT_WHEEL}"
   BASE_LENGHT="${BASE_LENGHT}"
   BASE_WIDTH="${BASE_WIDTH}"
   BASE_HEIGHT="${BASE_HEIGHT}"
   MECANUM_WHEEL_WIDTH="${MECANUM_WHEEL_WIDTH}"
-  BASE_LINK="BASE_LINK"/>
+  BASE_LINK="BASE_LINK"
+  WHEEL_MASS="${MECANUM_WHEEL_MASS}"/>
 
   <!-- ****************** LEFT BACK WHEEL *******************************  -->
 
@@ -100,24 +109,24 @@
   BASE_LENGHT="${BASE_LENGHT}"
   BASE_WIDTH="${BASE_WIDTH}"
   BASE_HEIGHT="${BASE_HEIGHT}"
-  MECANUM_WHEEL_WIDTH="${MECANUM_WHEEL_WIDTH}"
-  BASE_LINK="BASE_LINK"/>
+  MECANUM_WHEEL_WIDTH="${MECANUM_WHEEL_WIDTH}" 
+  BASE_LINK="BASE_LINK"
+  WHEEL_MASS="${MECANUM_WHEEL_MASS}"/>
 
   <!-- ****************** RIGHT BACK WHEEL *******************************  -->
 
-  
   <xacro:Mecanum_Wheel
   PREFIX="R_B_WHEEL"
   WIDTH="${MECANUM_WHEEL_WIDTH}"
   DIAMETER="${MECANUM_WHEEL_DIAMETER}"
   MECANUM_WHEEL_MAX_JOINT_VEL="${MECANUM_WHEEL_MAX_JOINT_VEL}"
   MECANUM_WHEEL_MAX_EFFORT="${MECANUM_WHEEL_MAX_EFFORT}"
-  FR_BA="${BACK_WHEEL}"
-  LE_RI="${RIGHT_WHEEL}"
+  FR_BA="${BACK_WHEEL}" LE_RI="${RIGHT_WHEEL}"
   BASE_LENGHT="${BASE_LENGHT}"
   BASE_WIDTH="${BASE_WIDTH}"
   BASE_HEIGHT="${BASE_HEIGHT}"
   MECANUM_WHEEL_WIDTH="${MECANUM_WHEEL_WIDTH}"
-  BASE_LINK="BASE_LINK"/>
+  BASE_LINK="BASE_LINK"
+  WHEEL_MASS="${MECANUM_WHEEL_MASS}"/>
 
 </robot>

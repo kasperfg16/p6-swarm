@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="Base_link" params="ROBOT_MASS MECANUM_WHEEL_MASS BASE_LENGHT BASE_WIDTH BASE_HEIGHT">
+
+    <!-- ********************************************************  -->
+    <!-- ****************** MACROS ******************************  -->
+    <!-- ********************************************************  -->
+
+    <!-- ******************* INERTIAL MACROS  *******************  -->
+
+    <xacro:include filename="$(find basic_mobile_robot)/models/basic_macros/inertial_macros.urdf" />
+
+    <!-- ********************************************************  -->
+    <!-- *************** MECANUM WHEEL DEFINITION ***************  -->
+    <!-- ********************************************************  -->
+
+    <link name="BASE_LINK">
+    
+        <visual>
+            <geometry>
+            <box size="${BASE_LENGHT} ${BASE_WIDTH} ${BASE_HEIGHT}" />
+            </geometry>
+        </visual>
+
+        <collision>
+            <geometry>
+            <box size="${BASE_LENGHT} ${BASE_WIDTH} ${BASE_HEIGHT}" />
+            </geometry>
+        </collision>
+
+    </link>
+
+    <inertial>
+    <box_inertia m="${ROBOT_MASS-MECANUM_WHEEL_MASS}" x="${BASE_LENGHT}" y="${BASE_WIDTH}" z="${BASE_HEIGHT}"/>
+    </inertial>
+
+  </xacro:macro>
+</robot>
