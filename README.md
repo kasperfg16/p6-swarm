@@ -24,6 +24,10 @@ Install extra ROS packages
     ``` bash
     sudo apt install ros-galactic-joint-state-publisher-gui
     sudo apt install ros-galactic-xacro
+    sudo apt install ros-galactic-ros2-control
+    sudo apt install ros-galactic-ros2-controllers
+    sudo apt install ros-galactic-gazebo-ros-pkgs
+    sudo apt install ros-galactic-ros-core ros-galactic-geometry2
     ```
 
 ## Dependencies
@@ -90,7 +94,13 @@ None yet
     Launch the project:
 
     ``` bash
-    ros2 launch omni_featter_description omni_featter_desription.launch.py
+    ros2 launch omni_featter_gazebo omni_featter_gazebo.launch.py
+    ```
+
+    When closing close gazebo as it is still running in the background
+
+    ``` bash
+    killall gzserver
     ```
 
 ## Rules

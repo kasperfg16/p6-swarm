@@ -27,14 +27,13 @@
           <box size="${BASE_LENGHT} ${BASE_WIDTH} ${BASE_HEIGHT}" />
         </geometry>
       </collision>
-      
+
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="${MECANUM_WHEEL_MASS}" />
-        <inertia ixx="${ROBOT_MASS-MECANUM_WHEEL_MASS*(BASE_WIDTH*BASE_WIDTH+BASE_HEIGHT*BASE_HEIGHT)/12}" ixy="0" ixz="0" iyy="${ROBOT_MASS-MECANUM_WHEEL_MASS*(BASE_LENGHT*BASE_LENGHT+BASE_HEIGHT*BASE_HEIGHT)/12}" iyz="0" izz="${ROBOT_MASS-MECANUM_WHEEL_MASS*(BASE_LENGHT*BASE_LENGHT+BASE_HEIGHT*BASE_HEIGHT)/12}" />
+        <mass value="${ROBOT_MASS-MECANUM_WHEEL_MASS}" />
+        <xacro:box_inertia m="${ROBOT_MASS-MECANUM_WHEEL_MASS}" x="${BASE_LENGHT}" y="${BASE_WIDTH}" z="${BASE_HEIGHT}" />
       </inertial>
     </link>
-
 
   </xacro:macro>
 </robot>

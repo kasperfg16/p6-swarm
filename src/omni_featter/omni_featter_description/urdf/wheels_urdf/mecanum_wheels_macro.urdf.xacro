@@ -29,11 +29,11 @@
           <cylinder radius="${DIAMETER/2}" length="${WIDTH}" />
         </geometry>
       </collision>
-      
+
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <mass value="${WHEEL_MASS}" />
-        <inertia ixx="${WHEEL_MASS*(3*DIAMETER/2*DIAMETER/2+MECANUM_WHEEL_WIDTH*MECANUM_WHEEL_WIDTH)/12}" ixy="0" ixz="0" iyy="${WHEEL_MASS*(3*DIAMETER/2*DIAMETER/2+MECANUM_WHEEL_WIDTH*MECANUM_WHEEL_WIDTH)/12}" iyz="0" izz="${WHEEL_MASS*DIAMETER/2*DIAMETER/2/2}" />
+        <xacro:cylinder_inertia m="${MECANUM_WHEEL_MASS}" h="${MECANUM_WHEEL_WIDTH}" r="${DIAMETER/2}"/>
       </inertial>
     </link>
 

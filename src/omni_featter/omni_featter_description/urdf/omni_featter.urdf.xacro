@@ -46,9 +46,9 @@
 
   <xacro:include filename="$(find omni_featter_description)/urdf/wheels_urdf/mecanum_wheels_macro.urdf.xacro" />
 
-  <!-- ******************* INERTIAL MACROS  *******************  -->
+  <!-- ******************* IMU LINK *******************  -->
 
-  <xacro:include filename="$(find omni_featter_description)/urdf/basic_macros/inertial_macros.urdf.xacro" />
+  <xacro:include filename="$(find omni_featter_description)/urdf/sensors/imu_.urdf.xacro" />
 
   <!-- ********************************************************  -->
   <!-- ****************** ASSEMBLY ****************************  -->
@@ -128,5 +128,9 @@
   MECANUM_WHEEL_WIDTH="${MECANUM_WHEEL_WIDTH}"
   BASE_LINK="BASE_LINK"
   WHEEL_MASS="${MECANUM_WHEEL_MASS}"/>
+
+  <!-- ****************** IMU LINK *******************************  -->
+
+  <xacro:Imu_link/>
 
 </robot>
