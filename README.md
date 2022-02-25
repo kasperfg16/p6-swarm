@@ -23,10 +23,20 @@ Install extra ROS packages
 
     ``` bash
     sudo apt install ros-galactic-joint-state-publisher-gui
+    ```
+    ``` bash
     sudo apt install ros-galactic-xacro
+    ```
+    ``` bash
     sudo apt install ros-galactic-ros2-control
+    ```
+    ``` bash
     sudo apt install ros-galactic-ros2-controllers
+    ```
+    ``` bash
     sudo apt install ros-galactic-gazebo-ros-pkgs
+    ```
+    ``` bash
     sudo apt install ros-galactic-ros-core ros-galactic-geometry2
     ```
 
