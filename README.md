@@ -39,6 +39,15 @@ Install extra ROS packages
     ``` bash
     sudo apt install ros-galactic-ros-core ros-galactic-geometry2
     ```
+    ``` bash
+    sudo apt-get install ros-galactic-turtle-tf2-py ros-galactic-tf2-tools ros-galactic-tf-transformations
+    ```
+    ``` bash
+    sudo apt install ros-galactic-robot-localization
+    ```
+    ``` bash
+    sudo apt install ros-galactic-tf2-geometry-msgs
+    ```
 
 ## Dependencies
 
@@ -104,7 +113,7 @@ None yet
     Launch the project:
 
     ``` bash
-    ros2 launch omni_featter_gazebo omni_featter_gazebo.launch.py
+    ros2 launch process_robot_gazebo gazebo.launch.py
     ```
 
     When closing close gazebo as it is still running in the background

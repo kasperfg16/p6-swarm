@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<robot name="linorobot2_2wd" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Custom made macros -->
+  <xacro:include filename="$(find process_robot_description)/urdf/process_robot_properties.urdf.xacro" />
+  <xacro:include filename="$(find process_robot_description)/urdf/sensors/tri_ir_sensor.urdf.xacro" />
+
+  <!-- linorobot2 macros -->
+  <xacro:include filename="$(find linorobot2_description)/urdf/mech/base.urdf.xacro" />
+  <xacro:include filename="$(find linorobot2_description)/urdf/mech/mecanum_wheel.urdf.xacro" />
+  <xacro:include filename="$(find linorobot2_description)/urdf/sensors/imu.urdf.xacro" />
+  <xacro:include filename="$(find linorobot2_description)/urdf/sensors/generic_laser.urdf.xacro" />
+  <xacro:include filename="$(find linorobot2_description)/urdf/sensors/depth_sensor.urdf.xacro" />
+  <xacro:include filename="$(find linorobot2_description)/urdf/controllers/omni_drive.urdf.xacro" />
+  
+
+  <xacro:base 
+    length="${base_length}" 
+    width="${base_width}" 
+    height="${base_height}" 
+    mass="${base_mass}"
+    wheel_radius="${wheel_radius}"
+    wheel_pos_z="${wheel_pos_z}"
+/>
+
+  <xacro:mecanum_wheel 
+    side="front_left"
+    radius="${wheel_radius}" 
+    width="${wheel_width}" 
+    pos_x="${wheel_pos_x}" 
+    pos_y="${wheel_pos_y}" 
+    pos_z="${wheel_pos_z}" 
+    mass="${wheel_mass}"
+  />
+
+  <xacro:mecanum_wheel 
+    side="front_right"
+    radius="${wheel_radius}" 
+    width="${wheel_width}" 
+    pos_x="${wheel_pos_x}" 
+    pos_y="${-wheel_pos_y}" 
+    pos_z="${wheel_pos_z}" 
+    mass="${wheel_mass}"
+  />
+  <xacro:mecanum_wheel 
+    side="rear_left"
+    radius="${wheel_radius}" 
+    width="${wheel_width}" 
+    pos_x="${-wheel_pos_x}" 
+    pos_y="${wheel_pos_y}" 
+    pos_z="${wheel_pos_z}" 
+    mass="${wheel_mass}"
+  />
+
+  <xacro:mecanum_wheel 
+    side="rear_right"
+    radius="${wheel_radius}" 
+    width="${wheel_width}" 
+    pos_x="${-wheel_pos_x}" 
+    pos_y="${-wheel_pos_y}" 
+    pos_z="${wheel_pos_z}" 
+    mass="${wheel_mass}"
+  />
+
+  <xacro:imu/>
+
+  <xacro:tri_ir_sensor x="${base_length/2}" y="0" z="${-base_height/2}" roll="0" pitch="0" yaw="0" />
+
+  <xacro:omni_drive_controller/>
+</robot>

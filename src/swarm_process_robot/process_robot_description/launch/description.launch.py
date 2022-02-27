@@ -22,10 +22,9 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    robot_base = os.getenv('LINOROBOT2_BASE')
 
     urdf_path = PathJoinSubstitution(
-        [FindPackageShare("linorobot2_description"), "urdf/robots", f"{robot_base}.urdf.xacro"]
+        [FindPackageShare("process_robot_description"), "urdf/", "process_robot.urdf.xacro"]
     )
 
     rviz_config_path = PathJoinSubstitution(
@@ -47,7 +46,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             name='rviz', 
-            default_value='false',
+            default_value='true',
             description='Run rviz'
         ),
 

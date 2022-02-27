@@ -24,10 +24,6 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     use_sim_time = True
 
-    joy_launch_path = PathJoinSubstitution(
-        [FindPackageShare('linorobot2_bringup'), 'launch', 'joy_teleop.launch.py']
-    )
-
     ekf_config_path = PathJoinSubstitution(
         [FindPackageShare("linorobot2_base"), "config", "ekf.yaml"]
     )
@@ -37,7 +33,7 @@ def generate_launch_description():
     )
 
     description_launch_path = PathJoinSubstitution(
-        [FindPackageShare('linorobot2_description'), 'launch', 'description.launch.py']
+        [FindPackageShare('process_robot_description'), 'launch', 'description.launch.py']
     )
 
     return LaunchDescription([
@@ -51,7 +47,13 @@ def generate_launch_description():
             executable='spawn_entity.py',
             name='urdf_spawner',
             output='screen',
-            arguments=["-topic", "robot_description", "-entity", "linorobot2"]
+            arguments=["-topic", "robot_description", "-entity", "process_robot"]
+        ),
+
+        Node(
+            package='process_robot_gazebo',
+            executable='robot_commander.py',
+            name='robot_commander'
         ),
 
         Node(
@@ -73,10 +75,7 @@ def generate_launch_description():
                 'publish_joints': 'false',
             }.items()
         ),
-
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(joy_launch_path),
-        )
+        
     ])
 
 #sources: 
