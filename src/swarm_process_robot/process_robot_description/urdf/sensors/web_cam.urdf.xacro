@@ -1,0 +1,82 @@
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="web_cam" params="x y z roll pitch yaw">
+        <link name="web_cam_link">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.01 0.01 0.01" />
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.01 0.01 0.01" />
+                </geometry>
+            </visual>
+
+            <inertial>
+                <mass value="1e-5" />
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
+
+        </link>
+
+        <joint name="web_cam_link_joint" type="fixed">
+            <axis xyz="0 0 0" />
+            <origin rpy="${roll} ${pitch} ${yaw}" xyz="${x} ${y} ${z}" />
+            <parent link="base_link" />
+            <child link="web_cam_link" />
+        </joint>
+
+        <link name="web_cam_image_frame" />
+
+        <joint name="web_cam_image_frame_joint" type="fixed">
+            <axis xyz="0 0 0" />
+            <origin rpy="0 0 0" xyz="${0.01/2} 0 0" />
+            <parent link="web_cam_link" />
+            <child link="web_cam_image_frame" />
+        </joint>
+
+        <gazebo reference="web_cam_link">
+            <sensor type="camera" name="web_cam_1">
+                <update_rate>30.0</update_rate>
+                <camera name="head">
+                    <horizontal_fov>1.3962634</horizontal_fov>
+                    <image>
+                        <width>1920</width>
+                        <height>1080</height>
+                        <format>R8G8B8</format>
+                    </image>
+                    <clip>
+                        <near>0.02</near>
+                        <far>300</far>
+                    </clip>
+                    <noise>
+                        <type>gaussian</type>
+                        <!-- Noise is sampled independently per pixel on each frame.
+                       That pixel's noise value is added to each of its color
+                       channels, which at that point lie in the range [0,1]. -->
+                        <mean>0.0</mean>
+                        <stddev>0.007</stddev>
+                    </noise>
+                </camera>
+                <plugin name="web_cam_controller" filename="libgazebo_ros_camera.so">
+                    <alwaysOn>true</alwaysOn>
+                    <updateRate>0.0</updateRate>
+                    <cameraName>web_cam_1</cameraName>
+                    <imageTopicName>image_raw</imageTopicName>
+                    <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                    <frameName>web_cam_image_frame</frameName>
+                    <hackBaseline>0.07</hackBaseline>
+                    <distortionK1>0.0</distortionK1>
+                    <distortionK2>0.0</distortionK2>
+                    <distortionK3>0.0</distortionK3>
+                    <distortionT1>0.0</distortionT1>
+                    <distortionT2>0.0</distortionT2>
+                </plugin>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+</robot>

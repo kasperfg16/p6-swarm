@@ -4,6 +4,7 @@
   <!-- Custom made macros -->
   <xacro:include filename="$(find process_robot_description)/urdf/process_robot_properties.urdf.xacro" />
   <xacro:include filename="$(find process_robot_description)/urdf/sensors/tri_ir_sensor.urdf.xacro" />
+  <xacro:include filename="$(find process_robot_description)/urdf/sensors/web_cam.urdf.xacro" />
 
   <!-- linorobot2 macros -->
   <xacro:include filename="$(find linorobot2_description)/urdf/mech/base.urdf.xacro" />
@@ -65,6 +66,8 @@
   <xacro:imu/>
 
   <xacro:tri_ir_sensor x="${base_length/2}" y="0" z="${-base_height/2}" roll="0" pitch="0" yaw="0" />
+
+  <xacro:web_cam x="${base_length/2}" y="0" z="${base_height/2}" roll="0" pitch="0" yaw="0" />
 
   <xacro:omni_drive_controller/>
 </robot>
