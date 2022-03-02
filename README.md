@@ -110,7 +110,19 @@ None yet
 
     a)
 
-    Launch the project:
+    Launch rviz:
+
+    ``` bash
+    ros2 launch process_robot_description description.launch.py 
+    ```
+
+    Launch gazebo:
+
+    ``` bash
+    ros2 launch process_robot_gazebo gazebo.launch.py
+    ```
+
+    Launch gazebo.launch.py to control the robot in gazebo:
 
     ``` bash
     ros2 launch process_robot_gazebo gazebo.launch.py

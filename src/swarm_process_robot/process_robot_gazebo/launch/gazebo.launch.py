@@ -53,7 +53,7 @@ def generate_launch_description():
         Node(
             package='process_robot_gazebo',
             executable='robot_commander.py',
-            name='robot_commander'
+            name='robot_commander',
         ),
 
         Node(

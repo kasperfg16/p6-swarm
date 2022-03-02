@@ -1,0 +1,79 @@
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="tri_ir_sensor" params="x y z roll pitch yaw">
+        <link name="tri_ir_sensor">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.01 0.01 0.01" />
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.01 0.01 0.01" />
+                </geometry>
+            </visual>
+
+            <inertial>
+                <mass value="1e-5" />
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
+
+        </link>
+
+        <joint name="tri_ir_sensor_joint" type="fixed">
+            <axis xyz="0 0 0" />
+            <origin rpy="${roll} ${pitch} ${yaw}"  xyz="${x} ${y} ${z}" />
+            <parent link="base_link" />
+            <child link="tri_ir_sensor" />
+        </joint>
+
+        <link name="tri_ir_range_frame"/>
+
+        <joint name="tri_ir_range_joint" type="fixed">
+            <axis xyz="0 0 0" />
+            <origin rpy="0 0 0" xyz="${0.01/2} 0 0" />
+            <parent link="tri_ir_sensor" />
+            <child link="tri_ir_range_frame" />
+        </joint>
+
+        <gazebo reference="tri_ir_sensor">
+            <sensor name="ir_sensor" type="ray">
+                <always_on>true</always_on>
+                <visualize>true</visualize>
+                <update_rate>5</update_rate>
+                <ray>
+                    <scan>
+                        <horizontal>
+                            <samples>360</samples>
+                            <resolution>1.000000</resolution>
+                            <min_angle>-0.523598776</min_angle>
+                            <max_angle>0.523598776</max_angle>
+                        </horizontal>
+                    </scan>
+                    <range>
+                        <min>0.120000</min>
+                        <max>1</max>
+                        <resolution>0.015000</resolution>
+                    </range>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                    <radiation_type>INFRARED</radiation_type>
+                </ray>
+                <plugin name="gazebo_ros_range" filename="libgazebo_ros_ray_sensor.so">
+                    <ros>
+                        <remapping>~/out:=tri_ir_sensor/middle/range</remapping>
+                    </ros>
+                    <output_type>sensor_msgs/Range</output_type>
+                    <frame_name>tri_ir_range_frame</frame_name>
+                    <radiation>INFRARED</radiation>
+                </plugin>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+</robot>
