@@ -24,29 +24,41 @@ Install extra ROS packages
     ``` bash
     sudo apt install ros-galactic-joint-state-publisher-gui
     ```
+
     ``` bash
     sudo apt install ros-galactic-xacro
     ```
+
     ``` bash
     sudo apt install ros-galactic-ros2-control
     ```
+
     ``` bash
     sudo apt install ros-galactic-ros2-controllers
     ```
+
     ``` bash
     sudo apt install ros-galactic-gazebo-ros-pkgs
     ```
+
     ``` bash
     sudo apt install ros-galactic-ros-core ros-galactic-geometry2
     ```
+
     ``` bash
     sudo apt-get install ros-galactic-turtle-tf2-py ros-galactic-tf2-tools ros-galactic-tf-transformations
     ```
+
     ``` bash
     sudo apt install ros-galactic-robot-localization
     ```
+
     ``` bash
     sudo apt install ros-galactic-tf2-geometry-msgs
+    ```
+
+    ``` bash
+    pip install transformations
     ```
 
 ## Dependencies
@@ -125,7 +137,7 @@ None yet
     Launch gazebo.launch.py to control the robot in gazebo:
 
     ``` bash
-    ros2 launch process_robot_gazebo gazebo.launch.py
+    
     ```
 
     When closing close gazebo as it is still running in the background
