@@ -7,14 +7,14 @@
   <xacro:include filename="$(find process_robot_description)/urdf/sensors/tri_ir_sensor/tri_ir_sensor_left.urdf.xacro" />
   <xacro:include filename="$(find process_robot_description)/urdf/sensors/tri_ir_sensor/tri_ir_sensor_right.urdf.xacro" />
   <xacro:include filename="$(find process_robot_description)/urdf/sensors/web_cam.urdf.xacro" />
+  <xacro:include filename="$(find process_robot_description)/urdf/controllers/omni_drive.urdf.xacro" />
+  <xacro:include filename="$(find process_robot_description)/urdf/sensors/imu.urdf.xacro" />
 
   <!-- linorobot2 macros -->
   <xacro:include filename="$(find linorobot2_description)/urdf/mech/base.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/mech/mecanum_wheel.urdf.xacro" />
-  <xacro:include filename="$(find linorobot2_description)/urdf/sensors/imu.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/sensors/generic_laser.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/sensors/depth_sensor.urdf.xacro" />
-  <xacro:include filename="$(find linorobot2_description)/urdf/controllers/omni_drive.urdf.xacro" />
   
   <!-- Assembly of robot -->
   <xacro:base 

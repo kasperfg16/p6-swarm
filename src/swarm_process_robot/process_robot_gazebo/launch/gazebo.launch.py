@@ -65,17 +65,15 @@ def generate_launch_description():
                 {'use_sim_time': use_sim_time}, 
                 ekf_config_path
             ],
-            remappings=[("odometry/filtered", "odom")]
         ),
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(description_launch_path),
             launch_arguments={
                 'use_sim_time': str(use_sim_time),
-                'publish_joints': 'false',
+                'publish_joints': str(use_sim_time),
             }.items()
         ),
-        
     ])
 
 #sources: 

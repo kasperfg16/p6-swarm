@@ -45,6 +45,7 @@
                 <visualize>true</visualize>
                 <update_rate>5</update_rate>
                 <ray>
+                    <radiation_type>infrared</radiation_type>
                     <scan>
                         <horizontal>
                             <samples>360</samples>
@@ -52,6 +53,7 @@
                             <min_angle>0.523598776</min_angle>
                             <max_angle>1.3962634</max_angle>
                         </horizontal>
+
                     </scan>
                     <range>
                         <min>0.120000</min>
@@ -71,7 +73,7 @@
                     </ros>
                     <output_type>sensor_msgs/Range</output_type>
                     <frame_name>left_tri_ir_range_frame</frame_name>
-                    <radiation>INFRARED</radiation>
+                    <radiation_type>infrared</radiation_type>
                 </plugin>
             </sensor>
         </gazebo>

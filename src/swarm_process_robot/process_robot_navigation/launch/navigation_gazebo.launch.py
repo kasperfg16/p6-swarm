@@ -20,62 +20,76 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.conditions import IfCondition
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
+from launch.substitutions import EnvironmentVariable
 
-MAP_NAME='playground' #change to the name of your own map here
+MAP_NAME = 'playground'  # change to the name of your own map here
+
 
 def generate_launch_description():
 
-    nav2_launch_path = PathJoinSubstitution(
-        [FindPackageShare('nav2_bringup'), 'launch', 'bringup_launch.py']
+    gazebo_launch_path = PathJoinSubstitution(
+        [FindPackageShare('process_robot_gazebo'),
+         'launch', 'gazebo.launch.py']
     )
 
-    rviz_config_path = PathJoinSubstitution(
-        [FindPackageShare('linorobot2_navigation'), 'rviz', 'linorobot2_navigation.rviz']
+    
+
+    nav2_config_path = PathJoinSubstitution(
+        [FindPackageShare('process_robot_navigation'),
+         'config', 'navigation_gazebo.yaml']
     )
 
     default_map_path = PathJoinSubstitution(
         [FindPackageShare('linorobot2_navigation'), 'maps', f'{MAP_NAME}.yaml']
     )
 
-    nav2_config_path = PathJoinSubstitution(
-        [FindPackageShare('linorobot2_navigation'), 'config', 'navigation.yaml']
+    slam_launch_path = PathJoinSubstitution(
+        [FindPackageShare('slam_toolbox'), 'launch', 'online_async_launch.py']
     )
 
+    slam_config_path = PathJoinSubstitution(
+        [FindPackageShare('process_robot_navigation'), 'config', 'slam.yaml']
+    )
+
+    ros_distro = EnvironmentVariable('ROS_DISTRO')
+    slam_param_name = 'params_file'
+    if ros_distro == 'galactic': 
+        slam_param_name = 'slam_params_file'
+
     return LaunchDescription([
-        DeclareLaunchArgument(
+        
+    DeclareLaunchArgument(
             name='sim', 
-            default_value='false',
-            description='Enable use_sime_time to true'
+            default_value='true',
+            description='Enable use_sim_time to true'
         ),
 
         DeclareLaunchArgument(
-            name='rviz', 
-            default_value='false',
-            description='Run rviz'
+            name='sim',
+            default_value='true',
+            description='Enable use_sim_time to true'
         ),
 
-       DeclareLaunchArgument(
-            name='map', 
+        DeclareLaunchArgument(
+            name='map',
             default_value=default_map_path,
             description='Navigation map path'
         ),
 
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(nav2_launch_path),
+            PythonLaunchDescriptionSource(gazebo_launch_path),
             launch_arguments={
                 'map': LaunchConfiguration("map"),
                 'use_sim_time': LaunchConfiguration("sim"),
                 'params_file': nav2_config_path
-            }.items()
+            }.items(),
         ),
 
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            output='screen',
-            arguments=['-d', rviz_config_path],
-            condition=IfCondition(LaunchConfiguration("rviz")),
-            parameters=[{'use_sim_time': LaunchConfiguration("sim")}]
-        )
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(slam_launch_path),
+            launch_arguments={
+                'use_sim_time': LaunchConfiguration("sim"),
+                slam_param_name: slam_config_path
+            }.items(),
+        ),
     ])

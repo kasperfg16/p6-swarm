@@ -71,7 +71,7 @@
                     </ros>
                     <output_type>sensor_msgs/Range</output_type>
                     <frame_name>right_tri_ir_range_frame</frame_name>
-                    <radiation>INFRARED</radiation>
+                    <radiation_type>infrared</radiation_type>
                 </plugin>
             </sensor>
         </gazebo>

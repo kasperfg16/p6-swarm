@@ -45,6 +45,7 @@
                 <visualize>true</visualize>
                 <update_rate>5</update_rate>
                 <ray>
+                    <radiation_type>infrared</radiation_type>
                     <scan>
                         <horizontal>
                             <samples>360</samples>
@@ -71,7 +72,7 @@
                     </ros>
                     <output_type>sensor_msgs/Range</output_type>
                     <frame_name>tri_ir_range_frame</frame_name>
-                    <radiation>INFRARED</radiation>
+                    <radiation_type>infrared</radiation_type>
                 </plugin>
             </sensor>
         </gazebo>

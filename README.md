@@ -122,22 +122,16 @@ None yet
 
     a)
 
-    Launch rviz:
+    Launch gazebo and rviz:
 
     ``` bash
-    ros2 launch process_robot_description description.launch.py 
-    ```
-
-    Launch gazebo:
-
-    ``` bash
-    ros2 launch process_robot_gazebo gazebo.launch.py
+    ros2 launch process_robot_navigation navigation_gazebo.launch.py
     ```
 
     Launch gazebo.launch.py to control the robot in gazebo:
 
     ``` bash
-    
+    ros2 run teleop_twist_keyboard teleop_twist_keyboard
     ```
 
     When closing close gazebo as it is still running in the background
@@ -145,6 +139,8 @@ None yet
     ``` bash
     killall gzserver
     ```
+
+    ros2 run tf2_tools view_frames
 
 ## Rules
 
