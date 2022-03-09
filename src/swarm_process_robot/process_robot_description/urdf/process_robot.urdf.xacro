@@ -10,6 +10,8 @@
   <xacro:include filename="$(find process_robot_description)/urdf/controllers/omni_drive.urdf.xacro" />
   <xacro:include filename="$(find process_robot_description)/urdf/sensors/imu.urdf.xacro" />
 
+  <xacro:include filename="$(find process_robot_description)/urdf/sensors/lidar.urdf.xacro" />
+
   <!-- linorobot2 macros -->
   <xacro:include filename="$(find linorobot2_description)/urdf/mech/base.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/mech/mecanum_wheel.urdf.xacro" />
@@ -75,4 +77,7 @@
   <xacro:web_cam x="${base_length/2}" y="0" z="${base_height/2}" roll="0" pitch="0" yaw="0" />
 
   <xacro:omni_drive_controller/>
+
+  <xacro:lidar/>
+  
 </robot>

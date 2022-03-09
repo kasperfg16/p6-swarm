@@ -24,10 +24,6 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     use_sim_time = True
 
-    ekf_config_path = PathJoinSubstitution(
-        [FindPackageShare("linorobot2_base"), "config", "ekf.yaml"]
-    )
-
     world_path = PathJoinSubstitution(
         [FindPackageShare("linorobot2_gazebo"), "worlds", "playground.world"]
     )
@@ -48,23 +44,6 @@ def generate_launch_description():
             name='urdf_spawner',
             output='screen',
             arguments=["-topic", "robot_description", "-entity", "process_robot"]
-        ),
-
-        Node(
-            package='process_robot_gazebo',
-            executable='robot_commander.py',
-            name='robot_commander',
-        ),
-
-        Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_filter_node',
-            output='screen',
-            parameters=[
-                {'use_sim_time': use_sim_time}, 
-                ekf_config_path
-            ],
         ),
 
         IncludeLaunchDescription(

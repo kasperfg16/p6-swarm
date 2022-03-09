@@ -31,13 +31,26 @@ def generate_launch_description():
         [FindPackageShare('process_robot_gazebo'),
          'launch', 'gazebo.launch.py']
     )
-
     
-
+    
+    
+    '''
     nav2_config_path = PathJoinSubstitution(
         [FindPackageShare('process_robot_navigation'),
-         'config', 'navigation_gazebo.yaml']
+         'config', 'navigation_gazebo_lidar.yaml']
     )
+
+    
+    '''
+    nav2_config_path = PathJoinSubstitution(
+            [FindPackageShare('process_robot_navigation'),
+            'config', 'navigation_gazebo.yaml']
+        )
+    
+    ekf_config_path = PathJoinSubstitution(
+        [FindPackageShare("linorobot2_base"), "config", "ekf.yaml"]
+    )
+    
 
     default_map_path = PathJoinSubstitution(
         [FindPackageShare('linorobot2_navigation'), 'maps', f'{MAP_NAME}.yaml']
@@ -49,6 +62,10 @@ def generate_launch_description():
 
     slam_config_path = PathJoinSubstitution(
         [FindPackageShare('process_robot_navigation'), 'config', 'slam.yaml']
+    )
+
+    navigation_launch_path = PathJoinSubstitution(
+        [FindPackageShare('nav2_bringup'), 'launch', 'navigation_launch.py']
     )
 
     ros_distro = EnvironmentVariable('ROS_DISTRO')
@@ -65,12 +82,6 @@ def generate_launch_description():
         ),
 
         DeclareLaunchArgument(
-            name='sim',
-            default_value='true',
-            description='Enable use_sim_time to true'
-        ),
-
-        DeclareLaunchArgument(
             name='map',
             default_value=default_map_path,
             description='Navigation map path'
@@ -80,6 +91,25 @@ def generate_launch_description():
             PythonLaunchDescriptionSource(gazebo_launch_path),
             launch_arguments={
                 'map': LaunchConfiguration("map"),
+                'use_sim_time': LaunchConfiguration("sim"),
+            }.items(),
+        ),
+        
+        Node(
+            package='robot_localization',
+            executable='ekf_node',
+            name='ekf_filter_node',
+            output='screen',
+            parameters=[
+                {'use_sim_time': use_sim_time}, 
+                ekf_config_path
+            ],
+        ),
+
+        
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(navigation_launch_path),
+            launch_arguments={
                 'use_sim_time': LaunchConfiguration("sim"),
                 'params_file': nav2_config_path
             }.items(),
@@ -92,4 +122,7 @@ def generate_launch_description():
                 slam_param_name: slam_config_path
             }.items(),
         ),
+        
+        
+
     ])
