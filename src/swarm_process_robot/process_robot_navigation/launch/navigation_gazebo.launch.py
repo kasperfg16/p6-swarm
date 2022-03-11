@@ -22,7 +22,7 @@ from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
 from launch.substitutions import EnvironmentVariable
 
-MAP_NAME = 'playground'  # change to the name of your own map here
+MAP_NAME = 'swarm_map1'  # change to the name of your own map here
 
 
 def generate_launch_description():
@@ -32,16 +32,6 @@ def generate_launch_description():
          'launch', 'gazebo.launch.py']
     )
     
-    
-    
-    '''
-    nav2_config_path = PathJoinSubstitution(
-        [FindPackageShare('process_robot_navigation'),
-         'config', 'navigation_gazebo_lidar.yaml']
-    )
-
-    
-    '''
     nav2_config_path = PathJoinSubstitution(
             [FindPackageShare('process_robot_navigation'),
             'config', 'navigation_gazebo.yaml']
@@ -52,7 +42,7 @@ def generate_launch_description():
     )
 
     default_map_path = PathJoinSubstitution(
-        [FindPackageShare('linorobot2_navigation'), 'maps', f'{MAP_NAME}.yaml']
+        [FindPackageShare('process_robot_navigation'), 'maps', f'{MAP_NAME}.yaml']
     )
 
     slam_launch_path = PathJoinSubstitution(
@@ -76,7 +66,7 @@ def generate_launch_description():
         
         DeclareLaunchArgument(
             name='sim', 
-            default_value='true',
+            default_value='True',
             description='Enable use_sim_time to true'
         ),
 
@@ -109,7 +99,7 @@ def generate_launch_description():
             output='screen',
             parameters=[
                 ekf_config_path,
-                {'use_sim_time': LaunchConfiguration('use_sim_time')}
+                {'use_sim_time': LaunchConfiguration('sim')}
             ],
         ),
 
@@ -121,12 +111,5 @@ def generate_launch_description():
             }.items(),
         ),
 
-        Node(
-            package='process_robot_gazebo',
-            executable='robot_commander.py',
-            name='robot_commander',
-            parameters=[
-                {'use_sim_time': LaunchConfiguration("sim")}
-            ],
-        ),
+
     ])

@@ -39,7 +39,7 @@ def run_forrest_run(x, y, z, roll, pitch, yaw, navigator):
 
     # Set the robot's goal pose
     goal_pose = PoseStamped()
-    goal_pose.header.frame_id = 'map'
+    goal_pose.header.frame_id = 'odom'
     goal_pose.header.stamp = navigator.get_clock().now().to_msg()
 
     # Position
