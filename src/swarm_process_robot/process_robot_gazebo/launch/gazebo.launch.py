@@ -46,6 +46,7 @@ def generate_launch_description():
             arguments=["-topic", "robot_description", "-entity", "process_robot"]
         ),
 
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(description_launch_path),
             launch_arguments={

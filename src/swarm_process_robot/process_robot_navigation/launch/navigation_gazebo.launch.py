@@ -48,9 +48,8 @@ def generate_launch_description():
         )
     
     ekf_config_path = PathJoinSubstitution(
-        [FindPackageShare("linorobot2_base"), "config", "ekf.yaml"]
+        [FindPackageShare("process_robot_base"), "config", "ekf.yaml"]
     )
-    
 
     default_map_path = PathJoinSubstitution(
         [FindPackageShare('linorobot2_navigation'), 'maps', f'{MAP_NAME}.yaml']
@@ -75,7 +74,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         
-    DeclareLaunchArgument(
+        DeclareLaunchArgument(
             name='sim', 
             default_value='true',
             description='Enable use_sim_time to true'
@@ -90,29 +89,28 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(gazebo_launch_path),
             launch_arguments={
-                'map': LaunchConfiguration("map"),
                 'use_sim_time': LaunchConfiguration("sim"),
             }.items(),
         ),
-        
+
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(navigation_launch_path),
+            launch_arguments={
+                'map': LaunchConfiguration("map"),
+                'use_sim_time': LaunchConfiguration("sim"),
+                'params_file': nav2_config_path
+            }.items(),
+        ),
+
         Node(
             package='robot_localization',
             executable='ekf_node',
             name='ekf_filter_node',
             output='screen',
             parameters=[
-                {'use_sim_time': use_sim_time}, 
-                ekf_config_path
+                ekf_config_path,
+                {'use_sim_time': LaunchConfiguration('use_sim_time')}
             ],
-        ),
-
-        
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(navigation_launch_path),
-            launch_arguments={
-                'use_sim_time': LaunchConfiguration("sim"),
-                'params_file': nav2_config_path
-            }.items(),
         ),
 
         IncludeLaunchDescription(
@@ -122,7 +120,13 @@ def generate_launch_description():
                 slam_param_name: slam_config_path
             }.items(),
         ),
-        
-        
 
+        Node(
+            package='process_robot_gazebo',
+            executable='robot_commander.py',
+            name='robot_commander',
+            parameters=[
+                {'use_sim_time': LaunchConfiguration("sim")}
+            ],
+        ),
     ])

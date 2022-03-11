@@ -24,7 +24,7 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
 
     urdf_path = PathJoinSubstitution(
-        [FindPackageShare("process_robot_description"), "urdf/", "process_robot.urdf.xacro"]
+        [FindPackageShare("process_robot_description"), "urdf", "process_robot.urdf.xacro"]
     )
 
     rviz_config_path = PathJoinSubstitution(

@@ -78,6 +78,6 @@
 
   <xacro:omni_drive_controller/>
 
-  <xacro:lidar/>
-  
+  <!-- <xacro:lidar/> -->
+
 </robot>
