@@ -125,22 +125,35 @@ None yet
     Launch gazebo and rviz:
 
     ``` bash
+    cd
     ros2 launch process_robot_navigation navigation_gazebo.launch.py
     ```
 
-    Launch gazebo.launch.py to control the robot in gazebo:
+2. Open a new terminal
+
+    Now you have to drive the robot around and a map will be drawn. Launch gazebo.launch.py to control the robot in gazebo:
 
     ``` bash
     ros2 run teleop_twist_keyboard teleop_twist_keyboard
     ```
 
-    When closing close gazebo as it is still running in the background
+3. Open a new terminal
+
+    When you have mapped the obstables in the map you save it
+
+    ``` bash
+    ros2 run nav2_map_server map_saver_cli -t /global_costmap/costmap -f swarm_map1
+    ```
+
+    Two files will be created and saved in the launch directory, which would be /home if you followed the steps. Move the files in PATH/src/swarm_process_robot/process_robot_navigation/maps
+
+4. Open a new terminal
+
+    When closing close gazebo as it might still be running in the background
 
     ``` bash
     killall gzserver
     ```
-
-    ros2 run tf2_tools view_frames
 
 ## Rules
 
