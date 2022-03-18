@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-# https://automaticaddison.com/how-to-send-goals-to-the-ros-2-navigation-stack-nav2/
+# reference: https://automaticaddison.com/how-to-send-goals-to-the-ros-2-navigation-stack-nav2/
 
 from nav2_simple_commander.robot_navigator import BasicNavigator
 import rclpy

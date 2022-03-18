@@ -36,39 +36,16 @@ def generate_launch_description():
             [FindPackageShare('process_robot_navigation'),
             'config', 'navigation_gazebo.yaml']
         )
-    
-    ekf_config_path = PathJoinSubstitution(
-        [FindPackageShare("process_robot_base"), "config", "ekf.yaml"]
-    )
 
     default_map_path = PathJoinSubstitution(
         [FindPackageShare('process_robot_navigation'), 'maps', f'{MAP_NAME}.yaml']
     )
 
-    slam_launch_path = PathJoinSubstitution(
-        [FindPackageShare('slam_toolbox'), 'launch', 'online_async_launch.py']
-    )
-
-    slam_config_path = PathJoinSubstitution(
-        [FindPackageShare('process_robot_navigation'), 'config', 'slam.yaml']
-    )
-
     navigation_launch_path = PathJoinSubstitution(
-        [FindPackageShare('nav2_bringup'), 'launch', 'navigation_launch.py']
+        [FindPackageShare('nav2_bringup'), 'launch', 'bringup_launch.py']
     )
-
-    ros_distro = EnvironmentVariable('ROS_DISTRO')
-    slam_param_name = 'params_file'
-    if ros_distro == 'galactic': 
-        slam_param_name = 'slam_params_file'
-
+    
     return LaunchDescription([
-        
-        DeclareLaunchArgument(
-            name='sim', 
-            default_value='True',
-            description='Enable use_sim_time to true'
-        ),
 
         DeclareLaunchArgument(
             name='map',
@@ -76,40 +53,20 @@ def generate_launch_description():
             description='Navigation map path'
         ),
 
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(gazebo_launch_path),
-            launch_arguments={
-                'use_sim_time': LaunchConfiguration("sim"),
-            }.items(),
+        DeclareLaunchArgument(
+            name='use_sim_time', 
+            default_value='True',
+            description='Use simulation time'
         ),
-
+        
+        # https://navigation.ros.org/tutorials/docs/navigation2_on_real_turtlebot3.html#initialize-the-location-of-turtlebot-3 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(navigation_launch_path),
             launch_arguments={
                 'map': LaunchConfiguration("map"),
-                'use_sim_time': LaunchConfiguration("sim"),
-                'params_file': nav2_config_path
+                'use_sim_time': LaunchConfiguration('use_sim_time'),
+                'params_file': nav2_config_path,
+                'autostart': 'false'
             }.items(),
         ),
-
-        Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_filter_node',
-            output='screen',
-            parameters=[
-                ekf_config_path,
-                {'use_sim_time': LaunchConfiguration('sim')}
-            ],
-        ),
-
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(slam_launch_path),
-            launch_arguments={
-                'use_sim_time': LaunchConfiguration("sim"),
-                slam_param_name: slam_config_path
-            }.items(),
-        ),
-
-
     ])

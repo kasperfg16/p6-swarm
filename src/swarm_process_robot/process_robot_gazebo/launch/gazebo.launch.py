@@ -32,6 +32,10 @@ def generate_launch_description():
         [FindPackageShare('process_robot_description'), 'launch', 'description.launch.py']
     )
 
+    ekf_config_path = PathJoinSubstitution(
+        [FindPackageShare("process_robot_base"), "config", "ekf.yaml"]
+    )
+
     return LaunchDescription([
         ExecuteProcess(
             cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_factory.so',  '-s', 'libgazebo_ros_init.so', world_path],
@@ -46,14 +50,24 @@ def generate_launch_description():
             arguments=["-topic", "robot_description", "-entity", "process_robot"]
         ),
 
-
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(description_launch_path),
             launch_arguments={
                 'use_sim_time': str(use_sim_time),
-                'publish_joints': str(use_sim_time),
+                'publish_joints': 'true',
             }.items()
         ),
+
+        Node(
+            package='robot_localization',
+            executable='ekf_node',
+            name='ekf_filter_node',
+            output='screen',
+            parameters=[
+                ekf_config_path,
+                {'use_sim_time': LaunchConfiguration('use_sim_time')}
+            ],
+        )
     ])
 
 #sources: 

@@ -1,5 +1,3 @@
-
-
 amcl:
   ros__parameters:
     use_sim_time: True
@@ -40,12 +38,15 @@ amcl:
     z_rand: 0.5
     z_short: 0.05
     scan_topic: scan
-    set_initial_pose: True
+    map_topic: map
+    set_initial_pose: false
+    always_reset_initial_pose: false
     initial_pose:
       x: 0.0
       y: 0.0
       z: 0.0
       yaw: 0.0
+
 
 amcl_map_client:
   ros__parameters:
@@ -57,12 +58,13 @@ amcl_rclcpp_node:
 
 bt_navigator:
   ros__parameters:
-    use_sim_time: true
+    use_sim_time: True
     global_frame: map
-    robot_base_frame: base_link
     odom_topic: /odometry/filtered
+    robot_base_frame: base_link
     transform_tolerance: 0.1
-    default_nav_to_pose_bt_xml: navigate_w_replanning_and_recovery.xml
+    default_nav_to_pose_bt_xml: "/home/ubuntu/Documents/GitHub/P6-Swarm/p6-swarm/src/swarm_process_robot/process_robot_navigation/config/bt_config.xml"
+    default_nav_through_poses_bt_xml: "/home/ubuntu/Documents/GitHub/P6-Swarm/p6-swarm/src/swarm_process_robot/process_robot_navigation/config/bt_config.xml"
     goal_blackboard_id: goal
     goals_blackboard_id: goals
     path_blackboard_id: path
@@ -91,11 +93,11 @@ bt_navigator:
 
 bt_navigator_rclcpp_node:
   ros__parameters:
-    use_sim_time: true
+    use_sim_time: True
 
 controller_server:
   ros__parameters:
-    use_sim_time: true
+    use_sim_time: True
     controller_frequency: 20.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.5
@@ -160,7 +162,7 @@ controller_server:
 
 controller_server_rclcpp_node:
   ros__parameters:
-    use_sim_time: true
+    use_sim_time: True
 
 # Documentation costmap:
 # https://navigation.ros.org/setup_guides/sensors/setup_sensors.html
@@ -169,14 +171,14 @@ controller_server_rclcpp_node:
 local_costmap:
   local_costmap:
     ros__parameters:
-      update_frequency: 5.0
-      publish_frequency: 2.0
+      update_frequency: 7.0
+      publish_frequency: 7.0
       global_frame: odom
       robot_base_frame: base_link
-      use_sim_time: true
+      use_sim_time: True
       rolling_window: true
-      width: 3
-      height: 3
+      width: 4
+      height: 4
       resolution: 0.05
       footprint: "[ [0.21, 0.195], [0.21, -0.195], [-0.21, -0.195], [-0.21, 0.195] ]"
       plugins: ["inflation_layer", "range_layer"]
@@ -207,9 +209,9 @@ global_costmap:
     ros__parameters:
       update_frequency: 1.0
       publish_frequency: 1.0
-      global_frame: odom
+      global_frame: map
       robot_base_frame: base_link
-      use_sim_time: true
+      use_sim_time: True
       robot_radius: 0.22
       resolution: 0.05
       track_unknown_space: true
@@ -218,8 +220,10 @@ global_costmap:
       inflation_layer:
         enabled: true
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
+        cost_scaling_factor: 1.0
         inflation_radius: 0.55
+        inflate_around_unknown: true
+        inflate_unknown: false
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: true
@@ -240,24 +244,25 @@ global_costmap:
 
   global_costmap_client:
     ros__parameters:
-      use_sim_time: true
+      use_sim_time: True
 
   global_costmap_rclcpp_node:
     ros__parameters:
-      use_sim_time: true
+      use_sim_time: True
 
 map_server:
   ros__parameters:
-    use_sim_time: true
-    yaml_filename: "playground.yaml"
+    use_sim_time: True
+    topic_name: "map"
+    frame_id: "map"
+    yaml_filename: "/home/ubuntu/Documents/GitHub/P6-Swarm/p6-swarm/src/swarm_process_robot/process_robot_navigation/maps/swarm_map1.yaml"
 
 map_saver:
   ros__parameters:
-    use_sim_time: true
+    use_sim_time: True
     save_map_timeout: 5000
     free_thresh_default: 0.25
     occupied_thresh_default: 0.65
-    map_subscribe_transient_local: False
 
 planner_server:
   ros__parameters:

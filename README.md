@@ -125,11 +125,34 @@ None yet
     Launch gazebo and rviz:
 
     ``` bash
-    cd
-    ros2 launch process_robot_navigation navigation_gazebo.launch.py
+    ros2 launch process_robot_gazebo gazebo.launch.py 
+    ```
+
+    b)
+
+    Launch gazebo and rviz:
+
+    ``` bash
+    ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map odom
     ```
 
 2. Open a new terminal
+
+    a)
+
+    ``` bash
+    ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map odom
+    ```
+
+3. Open a new terminal
+
+    a)
+
+    ``` bash
+    ros2 launch process_robot_navigation navigation_gazebo.launch.py
+    ```
+
+4. Open a new terminal
 
     Now you have to drive the robot around and a map will be drawn. Launch gazebo.launch.py to control the robot in gazebo:
 
@@ -137,23 +160,31 @@ None yet
     ros2 run teleop_twist_keyboard teleop_twist_keyboard
     ```
 
-3. Open a new terminal
+5. Open a new terminal
 
     When you have mapped the obstables in the map you save it
 
     ``` bash
-    ros2 run nav2_map_server map_saver_cli -t /global_costmap/costmap -f swarm_map1
+    cd swarm_process_robot/process_robot_navigation/maps
     ```
 
-    Two files will be created and saved in the launch directory, which would be /home if you followed the steps. Move the files in PATH/src/swarm_process_robot/process_robot_navigation/maps
+    ``` bash
+    ros2 run nav2_map_server map_saver_cli -t /global_costmap/costmap -f <map_name> --ros-args -p save_map_timeout:=10000
+    ```
 
-4. Open a new terminal
+    Two files which describes the generated map will be created and saved
+
+6. Open a new terminal
+
+    ros2 launch nav2_bringup bringup_launch.py map:=/home/ubuntu/Documents/GitHub/P6-Swarm/p6-swarm/src/swarm_process_robot/process_robot_navigation/maps/swarm_map1.yaml map_type:=occupancy
 
     When closing close gazebo as it might still be running in the background
 
     ``` bash
     killall gzserver
     ```
+
+    ros2 run nav2_bt_navigator bt_navigator --ros-args --params-file /home/ubuntu/Documents/GitHub/P6-Swarm/p6-swarm/src/swarm_process_robot/process_robot_navigation/config/navigation_gazebo.yaml
 
 ## Rules
 

@@ -8,7 +8,7 @@
       <odometry_rate>20.0</odometry_rate>
       <robot_base_frame>base_footprint</robot_base_frame>
       <publish_odom>true</publish_odom>
-      <publish_odom_tf>true</publish_odom_tf>
+      <publish_odom_tf>false</publish_odom_tf>
     </plugin>
   </gazebo>
   </xacro:macro>
