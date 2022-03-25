@@ -34,26 +34,25 @@
 
         <joint name="left_tri_ir_range_joint" type="fixed">
             <axis xyz="0 0 0" />
-            <origin rpy="0 0 0" xyz="${0.01/2} 0 0" />
+            <origin rpy="0 0 0" xyz="${0.01/2+0.001} 0 0" />
             <parent link="left_tri_ir_sensor" />
             <child link="left_tri_ir_range_frame" />
         </joint>
 
-        <gazebo reference="left_tri_ir_sensor">
+        <gazebo reference="left_tri_ir_range_frame">
             <sensor name="left_ir_sensor" type="ray">
                 <always_on>true</always_on>
                 <visualize>true</visualize>
-                <update_rate>20</update_rate>
+                <update_rate>100</update_rate>
                 <ray>
                     <radiation_type>infrared</radiation_type>
                     <scan>
                         <horizontal>
                             <samples>360</samples>
                             <resolution>1.000000</resolution>
-                            <min_angle>-0.523598776</min_angle>
-                            <max_angle>0.523598776</max_angle>
+                            <min_angle>-0.45</min_angle>
+                            <max_angle>0.45</max_angle>
                         </horizontal>
-
                     </scan>
                     <range>
                         <min>0.120000</min>
@@ -69,6 +68,8 @@
                     <output_type>sensor_msgs/Range</output_type>
                     <frame_name>left_tri_ir_range_frame</frame_name>
                     <radiation_type>infrared</radiation_type>
+                    <gaussianNoise>0.01</gaussianNoise>
+                    <updateRate>30</updateRate>
                 </plugin>
             </sensor>
         </gazebo>

@@ -118,73 +118,25 @@ None yet
 
 ## How to run
 
-1. Open a new terminal
+1. Open a new terminal in root
 
     a)
 
-    Launch gazebo and rviz:
+    Launch gazebo, rviz and the NAV2 navigation stack:
 
     ``` bash
     ros2 launch process_robot_gazebo gazebo.launch.py 
     ```
 
-    b)
-
-    Launch gazebo and rviz:
-
-    ``` bash
-    ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map odom
-    ```
-
-2. Open a new terminal
+2. Open a new terminal in root
 
     a)
 
-    ``` bash
-    ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map odom
-    ```
-
-3. Open a new terminal
-
-    a)
+    Launch gazebo, rviz and the NAV2 navigation stack:
 
     ``` bash
     ros2 launch process_robot_navigation navigation_gazebo.launch.py
     ```
-
-4. Open a new terminal
-
-    Now you have to drive the robot around and a map will be drawn. Launch gazebo.launch.py to control the robot in gazebo:
-
-    ``` bash
-    ros2 run teleop_twist_keyboard teleop_twist_keyboard
-    ```
-
-5. Open a new terminal
-
-    When you have mapped the obstables in the map you save it
-
-    ``` bash
-    cd swarm_process_robot/process_robot_navigation/maps
-    ```
-
-    ``` bash
-    ros2 run nav2_map_server map_saver_cli -t /global_costmap/costmap -f <map_name> --ros-args -p save_map_timeout:=10000
-    ```
-
-    Two files which describes the generated map will be created and saved
-
-6. Open a new terminal
-
-    ros2 launch nav2_bringup bringup_launch.py map:=/home/ubuntu/Documents/GitHub/P6-Swarm/p6-swarm/src/swarm_process_robot/process_robot_navigation/maps/swarm_map1.yaml map_type:=occupancy
-
-    When closing close gazebo as it might still be running in the background
-
-    ``` bash
-    killall gzserver
-    ```
-
-    ros2 run nav2_bt_navigator bt_navigator --ros-args --params-file /home/ubuntu/Documents/GitHub/P6-Swarm/p6-swarm/src/swarm_process_robot/process_robot_navigation/config/navigation_gazebo.yaml
 
 ## Rules
 

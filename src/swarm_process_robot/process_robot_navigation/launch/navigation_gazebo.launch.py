@@ -21,11 +21,15 @@ from launch.conditions import IfCondition
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
 from launch.substitutions import EnvironmentVariable
+from launch.actions import TimerAction
 
 MAP_NAME = 'swarm_map1'  # change to the name of your own map here
 
-
 def generate_launch_description():
+
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    map = LaunchConfiguration("map")
+    autostart = LaunchConfiguration('autostart')
 
     gazebo_launch_path = PathJoinSubstitution(
         [FindPackageShare('process_robot_gazebo'),
@@ -35,7 +39,7 @@ def generate_launch_description():
     nav2_config_path = PathJoinSubstitution(
             [FindPackageShare('process_robot_navigation'),
             'config', 'navigation_gazebo.yaml']
-        )
+    )
 
     default_map_path = PathJoinSubstitution(
         [FindPackageShare('process_robot_navigation'), 'maps', f'{MAP_NAME}.yaml']
@@ -58,15 +62,21 @@ def generate_launch_description():
             default_value='True',
             description='Use simulation time'
         ),
-        
+
+        DeclareLaunchArgument(
+            name='autostart', 
+            default_value='True',
+            description='Automatically startup the nav2 stack'
+        ),
+            
         # https://navigation.ros.org/tutorials/docs/navigation2_on_real_turtlebot3.html#initialize-the-location-of-turtlebot-3 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(navigation_launch_path),
             launch_arguments={
-                'map': LaunchConfiguration("map"),
-                'use_sim_time': LaunchConfiguration('use_sim_time'),
+                'map': map,
+                'use_sim_time': use_sim_time,
                 'params_file': nav2_config_path,
-                'autostart': 'false'
+                'autostart': autostart
             }.items(),
         ),
     ])

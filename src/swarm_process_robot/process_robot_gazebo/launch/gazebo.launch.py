@@ -59,6 +59,13 @@ def generate_launch_description():
         ),
 
         Node(
+            package = "tf2_ros", 
+            executable = "static_transform_publisher",
+            name= "static_transform_publisher_map_odom",
+            output="screen",
+            arguments = ['0', '0', '0', '0', '0', '0', 'map', 'odom']),
+
+        Node(
             package='robot_localization',
             executable='ekf_node',
             name='ekf_filter_node',

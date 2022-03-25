@@ -34,16 +34,17 @@
 
         <joint name="tri_ir_range_joint" type="fixed">
             <axis xyz="0 0 0" />
-            <origin rpy="0 0 0" xyz="${0.01/2} 0 0" />
+            <origin rpy="0 0 0" xyz="${0.01/2+0.001} 0 0" />
             <parent link="tri_ir_sensor" />
             <child link="tri_ir_range_frame" />
         </joint>
 
-        <gazebo reference="tri_ir_sensor">
+        <!-- Specs https://www.pololu.com/product/3412 -->
+        <gazebo reference="tri_ir_range_frame">
             <sensor name="ir_sensor" type="ray">
                 <always_on>true</always_on>
                 <visualize>true</visualize>
-                <update_rate>20</update_rate>
+                <update_rate>100</update_rate>
                 <ray>
                     <radiation_type>infrared</radiation_type>
                     <scan>
@@ -68,6 +69,8 @@
                     <output_type>sensor_msgs/Range</output_type>
                     <frame_name>tri_ir_range_frame</frame_name>
                     <radiation_type>infrared</radiation_type>
+                    <gaussianNoise>0.01</gaussianNoise>
+                    <updateRate>30</updateRate>
                 </plugin>
             </sensor>
         </gazebo>

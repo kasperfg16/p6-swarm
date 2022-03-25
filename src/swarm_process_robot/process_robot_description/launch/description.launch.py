@@ -41,7 +41,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             name='publish_joints', 
             default_value='true',
-            description='Launch joint_states_publisher'
+            description='Launch joint_states_publisher',
         ),
 
         DeclareLaunchArgument(
@@ -74,7 +74,8 @@ def generate_launch_description():
             parameters=[
                 {
                     'use_sim_time': LaunchConfiguration('use_sim_time'),
-                    'robot_description': Command(['xacro ', LaunchConfiguration('urdf')])
+                    'robot_description': Command(['xacro ', LaunchConfiguration('urdf')]),
+                    'rate': 1000
                 }
             ],
         ),
