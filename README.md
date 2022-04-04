@@ -116,7 +116,7 @@ None yet
     sudo apt install ros-galactic-gazebo-ros-pkgs
     ```
 
-## How to run
+## How to run in simulation
 
 1. Open a new terminal in root
 
@@ -136,6 +136,18 @@ None yet
 
     ``` bash
     ros2 launch process_robot_navigation navigation_gazebo.launch.py
+    ```
+
+## How to run SLAM on single real robot
+
+1. Open a new terminal in root
+
+    a)
+
+    Launch gazebo, rviz and the NAV2 navigation stack:
+
+    ``` bash
+    ros2 launch process_robot_navigation SLAM_real_robot.launch.py
     ```
 
 ## Rules
