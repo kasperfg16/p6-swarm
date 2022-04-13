@@ -185,7 +185,7 @@ controller_server_rclcpp_node:
 local_costmap:
   local_costmap:
     ros__parameters:
-      lethal_cost_threshold: 254
+      lethal_cost_threshold: 100
       use_maximum: True
       update_frequency: 50.0
       publish_frequency: 50.0
@@ -195,8 +195,8 @@ local_costmap:
       rolling_window: true
       width: 3
       height: 3
-      resolution: 0.01
-      footprint: '[ [0.3, 0.2], [0.3, -0.2], [-0.3, -0.2], [-0.3, 0.2] ]'
+      resolution: 0.03
+      footprint: '[ [0.16, 0.25], [0.16, -0.25], [-0.16, -0.25], [-0.16, 0.25] ]'
       plugins: ["range_layer", "inflation_layer"]
       range_layer:
         enabled: True
@@ -205,13 +205,13 @@ local_costmap:
         /tri_ir_sensor/middle/range,
         /tri_ir_sensor/left/range,
         /tri_ir_sensor/right/range]
-        mark_threshold: 0.99
-        clear_threshold: 0.80
+        mark_threshold: 0.96
+        clear_threshold: 0.72
         clear_on_max_reading: true
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.5
-        inflation_radius: 0.1
+        cost_scaling_factor: 3.0
+        inflation_radius: 0.55
       static_layer:
         map_subscribe_transient_local: True
       always_send_full_costmap: True
@@ -225,15 +225,15 @@ local_costmap:
 global_costmap:
   global_costmap:
     ros__parameters:
-      lethal_cost_threshold: 254
+      lethal_cost_threshold: 100
       use_maximum: True
       update_frequency: 50.0
       publish_frequency: 50.0
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: False
-      footprint: '[ [0.3, 0.2], [0.3, -0.2], [-0.3, -0.2], [-0.3, 0.2] ]'
-      resolution: 0.01
+      footprint: '[ [0.15, 0.24], [0.15, -0.24], [-0.15, -0.24], [-0.15, 0.24] ]'
+      resolution: 0.03
       track_unknown_space: true
       plugins: ["range_layer", "obstacle_layer", "static_layer", "inflation_layer"]
       obstacle_layer:
@@ -259,17 +259,18 @@ global_costmap:
         /tri_ir_sensor/middle/range,
         /tri_ir_sensor/left/range,
         /tri_ir_sensor/right/range]
-        mark_threshold: 0.99
-        clear_threshold: 0.74
+        mark_threshold: 0.90
+        clear_threshold: 0.70
         clear_on_max_reading: true
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
         map_topic: "/map"
+        subscribe_to_updates: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.50
+        inflation_radius: 0.55
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:

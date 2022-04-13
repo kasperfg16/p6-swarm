@@ -23,7 +23,7 @@ from launch_ros.actions import Node
 from launch.substitutions import EnvironmentVariable
 from launch.actions import TimerAction
 
-MAP_NAME = 'swarm_map1'  # change to the name of your own map here
+MAP_NAME = 'swarm_group_room_map'  # change to the name of your own map here
 
 def generate_launch_description():
 
@@ -33,7 +33,7 @@ def generate_launch_description():
     
     nav2_config_path = PathJoinSubstitution(
             [FindPackageShare('process_robot_navigation'),
-            'config', 'navigation_gazebo.yaml']
+            'config', 'navigation_real_robot.yaml']
     )
 
     default_map_path = PathJoinSubstitution(
@@ -73,5 +73,5 @@ def generate_launch_description():
                 'params_file': nav2_config_path,
                 'autostart': autostart
             }.items(),
-        ),
+        )
     ])

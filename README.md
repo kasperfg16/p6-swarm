@@ -150,6 +150,62 @@ None yet
     ros2 launch process_robot_navigation SLAM_real_robot.launch.py
     ```
 
+    ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 odom map
+
+2. Open a new terminal
+
+    a)
+
+    Run plotjuggler to
+
+    ``` bash
+    ros2 run plotjuggler plotjuggler
+    ```
+
+## How to run Nav2 on single real robot
+
+1. Open a new terminal in root
+
+    a)
+
+    Launch the rviz and joint state publisher
+
+    ``` bash
+    ros2 launch process_robot_bringup bringup.launch.py 
+    ```
+
+2. Open a new terminal in root
+
+    a)
+
+    Launch NAV2 navigation stack:
+
+    ``` bash
+    ros2 launch process_robot_navigation navigation_real_robot.launch.py
+    ```
+3. Open a new terminal in root
+
+    a)
+
+    Launch a static transform publisher, that publishes transform between "map" and "odom" frame
+
+    ``` bash
+    ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 odom map
+    ```
+
+4. Open a new terminal
+
+    a)
+
+    Run plotjuggler to
+
+    ``` bash
+    ros2 run plotjuggler plotjuggler
+    ```
+
+ros2 launch process_robot_bringup bringup.launch.py 
+
+
 ## Rules
 
 * All files that only relates to your own pc should never be included in commits, make sure to add them to gitignore!.

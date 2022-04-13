@@ -13,6 +13,9 @@ def main():
     # Launch the ROS 2 Navigation Stack
     navigator = BasicNavigator()
 
+    navigator.setInitialPose(init_pose)
+    navigator.waitUntilNav2Active()
+
     # Wait for navigation to fully activate. Use this line if autostart is set to true.
     navigator.waitUntilNav2Active()
 

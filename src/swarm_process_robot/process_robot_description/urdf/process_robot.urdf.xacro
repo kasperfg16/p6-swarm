@@ -15,8 +15,6 @@
   <!-- linorobot2 macros -->
   <xacro:include filename="$(find linorobot2_description)/urdf/mech/base.urdf.xacro" />
   <xacro:include filename="$(find linorobot2_description)/urdf/mech/mecanum_wheel.urdf.xacro" />
-  <xacro:include filename="$(find linorobot2_description)/urdf/sensors/generic_laser.urdf.xacro" />
-  <xacro:include filename="$(find linorobot2_description)/urdf/sensors/depth_sensor.urdf.xacro" />
   
   <!-- Assembly of robot -->
   <xacro:base 
@@ -70,9 +68,9 @@
 
   <xacro:imu/>
 
-  <xacro:tri_ir_sensor x="${base_length/2-0.20000}" y="0" z="${base_height/2+0.010}" roll="0" pitch="0" yaw="0" />
-  <xacro:left_tri_ir_sensor x="${base_length/2-0.20000}" y="0.01" z="${base_height/2+0.010}" roll="0" pitch="0" yaw="0" />
-  <xacro:right_tri_ir_sensor x="${base_length/2-0.20000}" y="-0.01" z="${base_height/2+0.010}" roll="0" pitch="0" yaw="0" />
+  <xacro:tri_ir_sensor x="${base_length/2}" y="0" z="${-base_height/2+0.010}" roll="0" pitch="0" yaw="0" />
+  <xacro:left_tri_ir_sensor x="${base_length/2}" y="0.01" z="${-base_height/2+0.010}" roll="0" pitch="0" yaw="0" />
+  <xacro:right_tri_ir_sensor x="${base_length/2}" y="-0.01" z="${-base_height/2+0.010}" roll="0" pitch="0" yaw="0" />
 
   <xacro:web_cam x="${base_length/2}" y="0" z="${base_height/2}" roll="0" pitch="0" yaw="0" />
 

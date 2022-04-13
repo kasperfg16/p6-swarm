@@ -26,22 +26,26 @@ MAP_NAME = 'swarm_map1'  # change to the name of your own map here
 
 
 def generate_launch_description():
+    
+    nav2_config_path = PathJoinSubstitution(
+            [FindPackageShare('process_robot_navigation'),
+            'config', 'navigation_gazebo.yaml']
+    )
+
+    default_map_path = PathJoinSubstitution(
+        [FindPackageShare('process_robot_navigation'), 'maps', f'{MAP_NAME}.yaml']
+    )
 
     slam_launch_path = PathJoinSubstitution(
         [FindPackageShare('slam_toolbox'), 'launch', 'online_async_launch.py']
     )
 
     slam_config_path = PathJoinSubstitution(
-        [FindPackageShare('process_robot_navigation'), 'config', 'slam_localization_real_robot.yaml']
+        [FindPackageShare('process_robot_navigation'), 'config', 'slam.yaml']
     )
 
     navigation_launch_path = PathJoinSubstitution(
         [FindPackageShare('nav2_bringup'), 'launch', 'navigation_launch.py']
-    )
-
-    nav2_config_path = PathJoinSubstitution(
-            [FindPackageShare('process_robot_navigation'),
-            'config', 'navigation_real_robot.yaml']
     )
 
     ros_distro = EnvironmentVariable('ROS_DISTRO')
@@ -50,24 +54,33 @@ def generate_launch_description():
         slam_param_name = 'slam_params_file'
 
     return LaunchDescription([
-
+        
         DeclareLaunchArgument(
-            name='autostart', 
-            default_value='True',
-            description='Automatically startup the nav2 stack'
+            name='sim', 
+            default_value='false',
+            description='Enable use_sim_time to true'
         ),
 
         DeclareLaunchArgument(
-            name='use_sim_time', 
-            default_value='false',
-            description='Use simulation time'
+            name='map',
+            default_value=default_map_path,
+            description='Navigation map path'
         ),
 
         IncludeLaunchDescription(
-                    PythonLaunchDescriptionSource(slam_launch_path),
-                    launch_arguments={
-                        'use_sim_time': LaunchConfiguration("use_sim_time"),
-                        slam_param_name: slam_config_path
-                    }.items(),
-        ) 
+            PythonLaunchDescriptionSource(navigation_launch_path),
+            launch_arguments={
+                'map': LaunchConfiguration("map"),
+                'use_sim_time': LaunchConfiguration("sim"),
+                'params_file': nav2_config_path
+            }.items(),
+        ),
+
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(slam_launch_path),
+            launch_arguments={
+                'use_sim_time': LaunchConfiguration("sim"),
+                slam_param_name: slam_config_path
+            }.items(),
+        )
     ])
