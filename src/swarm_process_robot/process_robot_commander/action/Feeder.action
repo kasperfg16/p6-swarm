@@ -1,0 +1,11 @@
+# Goal
+bool start_feeder
+int16 carrier_id
+int16 num_bricks
+---
+# Result
+bool feeder_done
+---
+# Feedback
+bool is_feeding
+int16 bricks_fed_so_far

@@ -1,23 +1,21 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>process_robot_navigation</name>
+  <name>docking_action_server</name>
   <version>0.0.0</version>
     <description>Process robot Navigation Package</description>
     <maintainer email="kasperfg16@outlook.dk">Kasper Fuglsang Grøntved</maintainer>
   <license>Apache 2.0</license>
   <buildtool_depend>ament_cmake</buildtool_depend>
-  <exec_depend>robot_localization</exec_depend>
-  <exec_depend>nav2_bringup</exec_depend>
   <exec_depend>rclpy</exec_depend>
   <exec_depend>example_interfaces</exec_depend>
   <exec_depend>std_msgs</exec_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
   <buildtool_depend>rosidl_default_generators</buildtool_depend>
   <depend>action_msgs</depend>
   <member_of_group>rosidl_interface_packages</member_of_group>
   <export>
     <build_type>ament_cmake</build_type>
-    <exec_depend>nav2_bringup</exec_depend>
-    <exec_depend>slam_toolbox</exec_depend>
   </export>
 </package>

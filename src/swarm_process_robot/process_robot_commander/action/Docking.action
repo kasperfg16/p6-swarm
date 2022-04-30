@@ -1,0 +1,10 @@
+# Goal
+bool start_docking
+int16 carrier_id
+int16 feeder_id
+---
+# Result
+bool docked
+---
+# Feedback
+bool is_docking

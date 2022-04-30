@@ -20,8 +20,11 @@ def generate_launch_description():
     
     return LaunchDescription([
         Node(
-            package='process_robot_navigation',
-            executable='robot_commander.py',
-            name='robot_commander'
+            package='docking_action_server',
+            executable='action_server_docking.py',
+            name='action_server_docking',
+            output='screen',
+            emulate_tty=True,
+            arguments=[('__log_level:=debug')]
         ),
     ])

@@ -138,21 +138,7 @@ None yet
     ros2 launch process_robot_navigation navigation_gazebo.launch.py
     ```
 
-## How to run SLAM on single real robot
-
-1. Open a new terminal in root
-
-    a)
-
-    Launch gazebo, rviz and the NAV2 navigation stack:
-
-    ``` bash
-    ros2 launch process_robot_navigation SLAM_real_robot.launch.py
-    ```
-
-    ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 odom map
-
-2. Open a new terminal
+3. Open a new terminal
 
     a)
 
@@ -160,6 +146,57 @@ None yet
 
     ``` bash
     ros2 run plotjuggler plotjuggler
+    ```
+
+## How to create a map with single real robot
+
+1. Run script on jetson
+
+    SSH onto a jetson nano on a robot
+    run the command:
+
+    ``` bash
+    /usr/bin/python3 ResetTeensy.py
+    ```
+
+2. Open a new terminal in root
+
+    a)
+
+    Launch the rviz and joint state publisher
+
+    ``` bash
+    ros2 launch process_robot_bringup bringup.launch.py 
+    ```
+
+3. Open a new terminal in root
+
+    a)
+
+    Launch NAV2 navigation stack:
+
+    ``` bash
+    ros2 launch process_robot_navigation navigation_real_robot.launch.py
+    ```
+
+4. Open a new terminal in root
+
+    a)
+
+    Launch a static transform publisher, that publishes transform between "map" and "odom" frame
+
+    ``` bash
+    ros2 run tf2_ros static_transform_publisher -2.5 -2.5 0 0 0 0 odom map
+    ```
+
+5. Open a new terminal in root
+
+    a)
+
+    Launch the robot commander
+
+    ``` bash
+    ros2 launch process_robot_commander robot_commander.launch.py
     ```
 
 ## How to run Nav2 on single real robot
@@ -183,6 +220,7 @@ None yet
     ``` bash
     ros2 launch process_robot_navigation navigation_real_robot.launch.py
     ```
+
 3. Open a new terminal in root
 
     a)
@@ -190,10 +228,20 @@ None yet
     Launch a static transform publisher, that publishes transform between "map" and "odom" frame
 
     ``` bash
-    ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 odom map
+    ros2 run tf2_ros static_transform_publisher -2.5 -2.5 0 0 0 0 odom map
     ```
 
-4. Open a new terminal
+4. Open a new terminal in root
+
+    a)
+
+    Launch a static transform publisher, that publishes transform between "map" and "odom" frame
+
+    ``` bash
+    ros2 launch process_robot_commander robot_commander.launch.py
+    ```
+
+5. Open a new terminal
 
     a)
 
@@ -203,8 +251,7 @@ None yet
     ros2 run plotjuggler plotjuggler
     ```
 
-ros2 launch process_robot_bringup bringup.launch.py 
-
+ros2 launch process_robot_bringup bringup.launch.py
 
 ## Rules
 
