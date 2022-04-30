@@ -251,8 +251,6 @@ None yet
     ros2 run plotjuggler plotjuggler
     ```
 
-ros2 launch process_robot_bringup bringup.launch.py
-
 ## Rules
 
 * All files that only relates to your own pc should never be included in commits, make sure to add them to gitignore!.
