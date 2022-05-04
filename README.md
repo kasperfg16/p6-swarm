@@ -116,6 +116,11 @@ None yet
     sudo apt install ros-galactic-gazebo-ros-pkgs
     ```
 
+    e)
+
+    follow these intructions:
+    <https://github.com/kajMork/Brick_Feeder/wiki>
+
 ## How to run in simulation
 
 1. Open a new terminal in root
@@ -205,13 +210,24 @@ None yet
 
     a)
 
+    SSH onto the computer on the robot e.g. via the use of putty SSH client: <https://itsfoss.com/putty-linux/>
+
+    Then run the following command
+    ``` bash
+    python3 Reset_Teensy
+    ```
+
+2. Open a new terminal in root
+
+    a)
+
     Launch the rviz and joint state publisher
 
     ``` bash
     ros2 launch process_robot_bringup bringup.launch.py 
     ```
 
-2. Open a new terminal in root
+3. Open a new terminal in root
 
     a)
 
@@ -221,7 +237,7 @@ None yet
     ros2 launch process_robot_navigation navigation_real_robot.launch.py
     ```
 
-3. Open a new terminal in root
+4. Open a new terminal in root
 
     a)
 
@@ -231,7 +247,17 @@ None yet
     ros2 run tf2_ros static_transform_publisher -2.5 -2.5 0 0 0 0 odom map
     ```
 
-4. Open a new terminal in root
+5. Open a new terminal in root
+
+    a)
+
+    Start an agent to the ESP32
+
+    ``` bash
+    sudo docker run -it --rm --net=host microros/micro-ros-agent:galactic udp4 --port 8888 -v6
+    ```
+
+6. Open a new terminal in root
 
     a)
 
@@ -241,11 +267,16 @@ None yet
     ros2 launch process_robot_commander robot_commander.launch.py
     ```
 
-5. Open a new terminal
+7. (Suggestion) Open a new terminal
 
     a)
 
-    Run plotjuggler to
+    install plotjuggler:
+    <https://snapcraft.io/install/plotjuggler/ubuntu>
+
+    b)
+
+    Run plotjuggler to visualize data. Plotjuggler FTW!!
 
     ``` bash
     ros2 run plotjuggler plotjuggler

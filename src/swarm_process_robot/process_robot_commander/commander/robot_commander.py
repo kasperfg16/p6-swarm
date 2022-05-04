@@ -2,66 +2,64 @@
 # reference: https://automaticaddison.com/how-to-send-goals-to-the-ros-2-navigation-stack-nav2/
 
 from tabnanny import check
+from time import sleep, time
 from tkinter import PROJECTING
-from unittest import case
 import numpy as np
 from nav2_simple_commander.robot_navigator import BasicNavigator, NavigationResult
 import rclpy
 import transformations as tf
 from geometry_msgs.msg import PoseStamped
-from rclpy.duration import Duration
-import math
-import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String
 from rclpy.action import ActionClient
 from docking_action_server.action import Docking
 from process_robot_commander.action import Feeder
+from std_msgs.msg import String
+from std_msgs.msg import Int32
 
-class FeederActionClient(Node):
+class feedPublisher(Node):
 
     def __init__(self):
-        super().__init__('feeder_action_client')
-        self._action_client = ActionClient(self, Feeder, 'feeder')
-        self.feeder_done = False
-        self.is_feeding = False
-        self.bricks_fed_so_far = 0
+        super().__init__('minimal_publisher')
+        self.publisher_ = self.create_publisher(Int32, 'brickfeeder_goal', 10)
+        timer_period = 0.5  # seconds
+        self.timer = self.create_timer(timer_period, self.timer_callback)
+        self.i = 0
+        self.num_bricks = 0
 
-    def request_feeding(self, num_bricks):
-        goal_msg = Feeder.Goal()
-        goal_msg.start_feeder = True
-        goal_msg.num_bricks = num_bricks
+    def timer_callback(self):
+        msg = Int32()
+        msg.data = self.num_bricks
+        self.publisher_.publish(msg)
+        if self.i <= 10:
+            self.get_logger().info('Requesting feeder for feeding of "%s" bricks' % msg.data)
+            self.i = 0
+        self.i += 1
 
-        self._action_client.wait_for_server()
+class feedSubscriber(Node):
 
-        self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
+    def __init__(self):
+        super().__init__('feeder_subscriber')
+        self.subscription = self.create_subscription(
+            String,
+            'brickfeeder_status',
+            self.feed_callback,
+            10)
+        self.subscription  # prevent unused variable warning
+        self.feeding = False
 
-        self._send_goal_future.add_done_callback(self.goal_response_callback)
+    def feed_callback(self, msg):
+        if msg.data == "G1":
+            self.get_logger().info('Feeder booting')
+            self.feeding = False
 
-    def goal_response_callback(self, future):
-        goal_handle = future.result()
-        if not goal_handle.accepted:
-            self.get_logger().info('Goal rejected :(')
-            return
+        elif msg.data == "G2":
+            self.get_logger().info('Feeder ready for new goal')
+            self.feeding = False
+            self.fed = True
 
-        self.get_logger().info('Goal accepted :)')
-
-        self._get_result_future = goal_handle.get_result_async()
-        self._get_result_future.add_done_callback(self.get_result_callback)
-
-    def get_result_callback(self, future):
-        result = future.result().result
-        self.get_logger().info('Feeder done: {0}'.format(result.feeder_done))
-        self.get_logger().info('Feeder done: {0}'.format(result.num_bricks_fed))
-        self.feeder_done = result.feeder_done
-
-    def feedback_callback(self, feedback_msg):
-        feedback = feedback_msg.feedback
-        self.get_logger().info('Is feeding: {0}'.format(feedback.is_feeding))
-        self.get_logger().info('Bricks fed so far: {0}'.format(feedback.bricks_fed_so_far))
-        self.is_feeding = feedback.is_feeding
-        self.bricks_fed_so_far = feedback.bricks_fed_so_far
-
+        elif msg.data == "G3":
+            self.feeding = True
+            self.fed = False
 
 
 class DockingActionClient(Node):
@@ -93,16 +91,13 @@ class DockingActionClient(Node):
         self.get_logger().info('Goal accepted :)')
 
         self._get_result_future = goal_handle.get_result_async()
-        print(self._get_result_future)
         self._get_result_future.add_done_callback(self.get_result_callback)
 
 
     def get_result_callback(self, future):
         result = future.result().result
         self.get_logger().info('Docked: {0}'.format(result.docked))
-        rclpy.shutdown()
         self.docked = result.docked
-        print(result.docked)
 
 
     def feedback_callback(self, feedback_msg):
@@ -150,20 +145,8 @@ def run_forrest_run(x, y, z, roll, pitch, yaw, navigator):
         print('Goal failed!')
 
     return result
-    
-def main(args=None):
-    # Start the ROS 2 Python Client Library
-    rclpy.init(args=args)
 
-    # Create instance of docking action client
-    docking_action_client = DockingActionClient()
-
-    # Create instance of feeder action client
-    feeder_action_client = FeederActionClient()
-
-    # Launch the ROS 2 Navigation Stack
-    navigator = BasicNavigator()
-
+def send_goal(x, y, z, roll, pitch, yaw, num_bricks, docking_action_client, feeder_subscriber, feeder_publisher, navigator):
     # Set the robot's init pose
     init_pose = PoseStamped()
     init_pose.header.frame_id = 'map'
@@ -183,33 +166,76 @@ def main(args=None):
 
     navigator.setInitialPose(init_pose)
 
-    x = 2.9
-    y = 2.9
-    z = 0.0
-    roll = 0.0
-    pitch = 0.0
-    yaw = 3.14/2
-    result = run_forrest_run(x, y, z, roll, pitch, yaw, navigator)
+    result = run_forrest_run(x, y, z, roll, pitch, yaw, navigator)    
 
     if result == NavigationResult.SUCCEEDED:
 
         # Request docking
-        print("Request docking")
+        print("Requesting docking")
         docking_action_client.request_dock()
-        rclpy.spin(docking_action_client)
-        docked = docking_action_client.docked
-        if docked:
+        while not docking_action_client.docked:
+            rclpy.spin_once(docking_action_client)
+
+        if docking_action_client.docked:
             # Request Feeder starting
-            print("Request feeder")
-            feeder_action_client.request_feeding(num_bricks=2)
-            has_fed = feeder_action_client.get_result_callback()
-            if has_fed:
-                print('hurray! I docked and fed some hot carrier bot')
+            i = 0
+            feeder_publisher.num_bricks = num_bricks
+            while not feeder_subscriber.feeding:
+                rclpy.spin_once(feeder_publisher)
+                rclpy.spin_once(feeder_subscriber)
+            
+            feeder_subscriber.get_logger().info('Feeder is feeding')
+
+            while not feeder_subscriber.fed:
+                rclpy.spin_once(feeder_subscriber)
+
+            feeder_subscriber.get_logger().info('Feeder has fed')
+            
+            print('hurray! I docked and fed some hot carrier bot')
     
     elif result == NavigationResult.CANCELED:
         print('Goal was canceled!')
     elif result == NavigationResult.FAILED:
         print('Goal failed!')
+
+def main(args=None):
+    
+    # Start the ROS 2 Python Client Library
+    rclpy.init(args=args)
+
+    # Create instance of docking action client
+    docking_action_client = DockingActionClient()
+
+    # Create instance of feeder publisher
+    feeder_publisher = feedPublisher()
+
+    # Create instance of feeder subscriber
+    feeder_subscriber = feedSubscriber()
+
+    # Launch the ROS 2 Navigation Stack
+    navigator = BasicNavigator()
+
+    # Create a goal for process robot
+    x = 2.6
+    y = 2.6
+    z = 0.0
+    roll = 0.0
+    pitch = 0.0
+    yaw = 3.14/2
+    num_bricks = 5
+
+    send_goal(
+    x, 
+    y, 
+    z, 
+    roll, 
+    pitch, 
+    yaw, 
+    num_bricks,
+    docking_action_client,
+    feeder_subscriber,
+    feeder_publisher,
+    navigator)
 
 if __name__ == '__main__':
     main()

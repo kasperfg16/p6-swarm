@@ -197,7 +197,7 @@ local_costmap:
       width: 2
       height: 2
       resolution: 0.02
-      footprint: '[ [0.18, 0.27], [0.18, -0.27], [-0.18, -0.27], [-0.18, 0.27] ]'
+      footprint: "[ [0.30, 0.29], [0.30, -0.29], [-0.30, -0.29], [-0.30, 0.29] ]"
       plugins: ["obstacle_layer", "range_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
@@ -251,7 +251,7 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: False
-      footprint: '[ [0.18, 0.27], [0.18, -0.27], [-0.18, -0.27], [-0.18, 0.27] ]'
+      footprint: "[ [0.28, 0.28], [0.28, -0.28], [-0.28, -0.28], [-0.28, 0.28] ]"
       resolution: 0.02
       track_unknown_space: true
       plugins: ["obstacle_layer", "static_layer", "inflation_layer"]
