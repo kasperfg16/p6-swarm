@@ -23,7 +23,7 @@ from launch_ros.actions import Node
 from launch.substitutions import EnvironmentVariable
 from launch.actions import TimerAction
 
-MAP_NAME = 'swarm_map1'  # change to the name of your own map here
+MAP_NAME = 'swarm_group_room_map'  # change to the name of your own map here
 
 def generate_launch_description():
 

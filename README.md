@@ -210,9 +210,10 @@ None yet
 
     a)
 
-    SSH onto the computer on the robot e.g. via the use of putty SSH client: <https://itsfoss.com/putty-linux/>
+    SSH onto the robot computer e.g. via the use of putty SSH client: <https://itsfoss.com/putty-linux/>
 
     Then run the following command
+
     ``` bash
     python3 Reset_Teensy
     ```
@@ -231,23 +232,25 @@ None yet
 
     a)
 
-    Launch NAV2 navigation stack:
+    Launch a static transform publisher, that publishes transform between "map" and "odom" frame
 
     ``` bash
-    ros2 launch process_robot_navigation navigation_real_robot.launch.py
+    ros2 run tf2_ros static_transform_publisher -1.853 -4.045 0 0 0 0 odom map
     ```
 
 4. Open a new terminal in root
 
     a)
 
-    Launch a static transform publisher, that publishes transform between "map" and "odom" frame
+    Launch NAV2 navigation stack:
 
     ``` bash
-    ros2 run tf2_ros static_transform_publisher -2.5 -2.5 0 0 0 0 odom map
+    ros2 run tf2_ros static_transform_publisher -1.853 -4.045 0 0 0 0 odom map
     ```
 
-5. Open a new terminal in root
+5. Follow the readme of https://github.com/BenMusak/ROB_vis_aruco
+
+6. Open a new terminal in root
 
     a)
 
@@ -257,7 +260,7 @@ None yet
     sudo docker run -it --rm --net=host microros/micro-ros-agent:galactic udp4 --port 8888 -v6
     ```
 
-6. Open a new terminal in root
+7. Open a new terminal in root
 
     a)
 
@@ -267,7 +270,7 @@ None yet
     ros2 launch process_robot_commander robot_commander.launch.py
     ```
 
-7. (Suggestion) Open a new terminal
+8. (Suggestion) Open a new terminal
 
     a)
 

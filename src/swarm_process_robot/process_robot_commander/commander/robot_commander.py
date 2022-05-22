@@ -216,13 +216,13 @@ def main(args=None):
     navigator = BasicNavigator()
 
     # Create a goal for process robot
-    x = 2.6
-    y = 2.6
+    x = 1.9
+    y = 3.5
     z = 0.0
     roll = 0.0
     pitch = 0.0
-    yaw = 3.14/2
-    num_bricks = 5
+    yaw = 0
+    num_bricks = 3
 
     send_goal(
     x, 
