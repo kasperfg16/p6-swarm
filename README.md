@@ -222,20 +222,20 @@ None yet
 
     a)
 
-    Launch the rviz and joint state publisher
+    Launch a static transform publisher, that publishes transform between "map" and "odom" frame
 
     ``` bash
-    ros2 launch process_robot_bringup bringup.launch.py 
+    ros2 run tf2_ros static_transform_publisher -1.853 -4.045 0 0 0 0 odom map
     ```
 
 3. Open a new terminal in root
 
     a)
 
-    Launch a static transform publisher, that publishes transform between "map" and "odom" frame
+    Launch the rviz and joint state publisher
 
     ``` bash
-    ros2 run tf2_ros static_transform_publisher -1.853 -4.045 0 0 0 0 odom map
+    ros2 launch process_robot_bringup bringup.launch.py 
     ```
 
 4. Open a new terminal in root
@@ -245,7 +245,7 @@ None yet
     Launch NAV2 navigation stack:
 
     ``` bash
-    ros2 run tf2_ros static_transform_publisher -1.853 -4.045 0 0 0 0 odom map
+    ros2 launch process_robot_navigation navigation_real_robot.launch.py
     ```
 
 5. Follow the readme of https://github.com/BenMusak/ROB_vis_aruco

@@ -106,11 +106,11 @@ class DockingActionClient(Node):
         self.is_docking = feedback.is_docking
         
 
-def run_forrest_run(x, y, z, roll, pitch, yaw, navigator):
+def run_forrest_run(x, y, z, roll, pitch, yaw, navigator, reference='map'):
 
     # Set the robot's goal pose
     goal_pose = PoseStamped()
-    goal_pose.header.frame_id = 'map'
+    goal_pose.header.frame_id = reference
     goal_pose.header.stamp = navigator.get_clock().now().to_msg()
 
     # Position
@@ -146,10 +146,10 @@ def run_forrest_run(x, y, z, roll, pitch, yaw, navigator):
 
     return result
 
-def send_goal(x, y, z, roll, pitch, yaw, num_bricks, docking_action_client, feeder_subscriber, feeder_publisher, navigator):
+def send_goal(x, y, z, roll, pitch, yaw, num_bricks, docking_action_client, feeder_subscriber, feeder_publisher, navigator, refrenceframe):
     # Set the robot's init pose
     init_pose = PoseStamped()
-    init_pose.header.frame_id = 'map'
+    init_pose.header.frame_id = 'base_footprint'
     init_pose.header.stamp = navigator.get_clock().now().to_msg()
 
     # Position
@@ -166,7 +166,7 @@ def send_goal(x, y, z, roll, pitch, yaw, num_bricks, docking_action_client, feed
 
     navigator.setInitialPose(init_pose)
 
-    result = run_forrest_run(x, y, z, roll, pitch, yaw, navigator)    
+    result = run_forrest_run(x, y, z, roll, pitch, yaw, navigator, refrenceframe)    
 
     if result == NavigationResult.SUCCEEDED:
 
@@ -216,26 +216,28 @@ def main(args=None):
     navigator = BasicNavigator()
 
     # Create a goal for process robot
-    x = 1.9
-    y = 3.5
+    x = 1.0
+    y = 0.0
     z = 0.0
     roll = 0.0
     pitch = 0.0
-    yaw = 0
+    yaw = 0.0
     num_bricks = 3
+    refrenceframe = "odom"
 
     send_goal(
     x, 
     y, 
     z, 
     roll, 
-    pitch, 
+    pitch,  
     yaw, 
     num_bricks,
     docking_action_client,
     feeder_subscriber,
     feeder_publisher,
-    navigator)
+    navigator,
+    refrenceframe=refrenceframe)
 
 if __name__ == '__main__':
     main()
