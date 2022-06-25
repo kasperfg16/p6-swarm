@@ -36,17 +36,39 @@ def generate_launch_description():
         DeclareLaunchArgument(
             name='use_sim_time', 
             default_value='false',
-            description='Use simulation time'
+            description='Use simulation time'   
+        ),
+        
+        DeclareLaunchArgument(
+            name='state_namespace', 
+            default_value='',
+            description='Define namespace'   
+        ),
+        
+        DeclareLaunchArgument(
+            name='namespace', 
+            default_value='',
+            description='Define namespace'   
+        ),
+        
+        DeclareLaunchArgument(
+            name='ekf_baselink', 
+            default_value='',
+            description='Define namespace'   
         ),
         
         Node(
             package='robot_localization',
             executable='ekf_node',
             name='ekf_filter_node',
+            namespace=LaunchConfiguration('namespace'),
             output='screen',
+            remappings=[('/tf', '/processRobot_2/tf'),
+                        ('/tf_static','/processRobot_2/tf_static')],
             parameters=[
                 ekf_config_path,
                 {'use_sim_time': LaunchConfiguration('use_sim_time')}
+                
             ],
         ),
 
@@ -55,6 +77,8 @@ def generate_launch_description():
             launch_arguments={
                 'use_sim_time': LaunchConfiguration('use_sim_time'),
                 'publish_joints': 'true',
+                'state_namespace' : LaunchConfiguration('state_namespace'),
+                'namespace' :  LaunchConfiguration('namespace')
             }.items()
         )
     ])

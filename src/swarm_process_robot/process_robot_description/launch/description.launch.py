@@ -52,17 +52,34 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             name='use_sim_time', 
-            default_value='True',
+            default_value='false',
             description='Use simulation time'
         ),
-
+        
+        DeclareLaunchArgument(
+            name='state_namespace', 
+            default_value='',
+            description='Define namespace'   
+        ),
+        
+        DeclareLaunchArgument(
+            name='namespace', 
+            default_value='',
+            description='Define namespace'   
+        ),
+    
+    
         Node(
             package='joint_state_publisher',
             executable='joint_state_publisher',
             name='joint_state_publisher',
+            namespace=LaunchConfiguration('namespace'),
             condition=IfCondition(LaunchConfiguration("publish_joints")),
             parameters=[
-                {'use_sim_time': LaunchConfiguration('use_sim_time')}
+                {
+                    'use_sim_time': LaunchConfiguration('use_sim_time')
+                 
+                }
             ]
         ),
 
@@ -71,11 +88,12 @@ def generate_launch_description():
             executable='robot_state_publisher',
             name='robot_state_publisher',
             output='screen',
+            namespace=LaunchConfiguration('namespace'),
             parameters=[
                 {
                     'use_sim_time': LaunchConfiguration('use_sim_time'),
                     'robot_description': Command(['xacro ', LaunchConfiguration('urdf')]),
-                    'rate': 1000
+                    'rate': 1000,
                 }
             ],
         ),

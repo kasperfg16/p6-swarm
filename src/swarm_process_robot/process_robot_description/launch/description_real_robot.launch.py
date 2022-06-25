@@ -55,6 +55,12 @@ def generate_launch_description():
             default_value='False',
             description='Use simulation time'
         ),
+        
+        DeclareLaunchArgument(
+            name='namespace', 
+            default_value='',
+            description='Define namespace'
+        ),
 
         Node(
             package='joint_state_publisher',
@@ -62,7 +68,8 @@ def generate_launch_description():
             name='joint_state_publisher',
             condition=IfCondition(LaunchConfiguration("publish_joints")),
             parameters=[
-                {'use_sim_time': LaunchConfiguration('use_sim_time')}
+                {'use_sim_time': LaunchConfiguration('use_sim_time'),
+                 'frame_prefix': LaunchConfiguration('namespace')}
             ]
         ),
 

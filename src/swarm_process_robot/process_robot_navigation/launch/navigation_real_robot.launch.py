@@ -59,6 +59,12 @@ def generate_launch_description():
         ),
 
         DeclareLaunchArgument(
+            name='namespace', 
+            default_value='',
+            description='Define namespace'
+        ),
+        
+        DeclareLaunchArgument(
             name='autostart', 
             default_value='True',
             description='Automatically startup the nav2 stack'
@@ -71,7 +77,8 @@ def generate_launch_description():
                 'map': map,
                 'use_sim_time': use_sim_time,
                 'params_file': nav2_config_path,
-                'autostart': autostart
+                'autostart': autostart,
+                'namespace': LaunchConfiguration('namespace')
             }.items(),
         )
     ])

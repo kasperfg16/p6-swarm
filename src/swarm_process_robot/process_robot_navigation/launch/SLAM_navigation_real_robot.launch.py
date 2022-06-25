@@ -60,6 +60,12 @@ def generate_launch_description():
             default_value='false',
             description='Enable use_sim_time to true'
         ),
+        
+        DeclareLaunchArgument(
+            name='namespace', 
+            default_value='',
+            description='Define namespace'
+        ),
 
         DeclareLaunchArgument(
             name='map',
@@ -72,7 +78,8 @@ def generate_launch_description():
             launch_arguments={
                 'map': LaunchConfiguration("map"),
                 'use_sim_time': LaunchConfiguration("sim"),
-                'params_file': nav2_config_path
+                'params_file': nav2_config_path,
+                'namespace': LaunchConfiguration('namespace'),
             }.items(),
         ),
 
@@ -80,6 +87,7 @@ def generate_launch_description():
             PythonLaunchDescriptionSource(slam_launch_path),
             launch_arguments={
                 'use_sim_time': LaunchConfiguration("sim"),
+                'namespace': LaunchConfiguration('namespace'),
                 slam_param_name: slam_config_path
             }.items(),
         )
