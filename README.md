@@ -222,7 +222,9 @@ None yet
 
     a)
 
-    Launch a static transform publisher, that publishes transform between "map" and "odom" frame
+    Launch a static transform publisher, that publishes transform between "map" and "odom" frame in meters
+
+    NOTE: The values in the command below must be chnaged to your application. The tranform is x y z roll pitch yaw
 
     ``` bash
     ros2 run tf2_ros static_transform_publisher -1.853 -4.045 0 0 0 0 odom map
