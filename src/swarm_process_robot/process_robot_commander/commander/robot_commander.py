@@ -5,7 +5,8 @@ from tabnanny import check
 from time import sleep, time
 from tkinter import PROJECTING
 import numpy as np
-from nav2_simple_commander.robot_navigator import BasicNavigator, NavigationResult
+from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
+#, NavigationResult
 import rclpy
 import transformations as tf
 from geometry_msgs.msg import PoseStamped
@@ -128,7 +129,7 @@ def run_forrest_run(x, y, z, roll, pitch, yaw, navigator, reference='map'):
     # Go to the goal pose
     navigator.goToPose(goal_pose)
     i = 0
-    while not navigator.isNavComplete():
+    while not navigator.isTaskComplete():
         i += 1
         feedback = navigator.getFeedback()
         if i == 5:
@@ -137,11 +138,11 @@ def run_forrest_run(x, y, z, roll, pitch, yaw, navigator, reference='map'):
             i = 0
 
     result = navigator.getResult()
-    if result == NavigationResult.SUCCEEDED:
+    if result == TaskResult.SUCCEEDED:
         print('Goal succeeded!')
-    elif result == NavigationResult.CANCELED:
+    elif result == TaskResult.CANCELED:
         print('Goal was canceled!')
-    elif result == NavigationResult.FAILED:
+    elif result == TaskResult.FAILED:
         print('Goal failed!')
 
     return result
@@ -168,7 +169,7 @@ def send_goal(x, y, z, roll, pitch, yaw, num_bricks, docking_action_client, feed
 
     result = run_forrest_run(x, y, z, roll, pitch, yaw, navigator, refrenceframe)    
 
-    if result == NavigationResult.SUCCEEDED:
+    if result == TaskResult.SUCCEEDED:
 
         # Request docking
         print("Requesting docking")
@@ -193,9 +194,9 @@ def send_goal(x, y, z, roll, pitch, yaw, num_bricks, docking_action_client, feed
             
             print('hurray! I docked and fed some hot carrier bot')
     
-    elif result == NavigationResult.CANCELED:
+    elif result == TaskResult.CANCELED:
         print('Goal was canceled!')
-    elif result == NavigationResult.FAILED:
+    elif result == TaskResult.FAILED:
         print('Goal failed!')
 
 def main(args=None):
