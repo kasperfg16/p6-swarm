@@ -1,17 +1,38 @@
 # p6-swarm
 
-github for 6th semester project at AAU.
+Github for 6th semester project at AAU.
 
-## Disclaimer
+Project report is found here: p6-swarm/P6_Bachelor_projekt.pdf
 
-This project is using ROS2 galactic. Other configurations are used at own dispare and misery
+## Recommmendations
+
+1. We recommend to read the project report for an understanding of the system.
+
+2. This project is using ROS2 galactic on ubuntu 20.04. Other configurations are used at own dispare and misery
+
+3. We recommend using dualboot via USB: <https://www.youtube.com/watch?v=cHF1ByFKtZo&t=315s>. In this way you can transfer all files between systems on the go.
 
 ## Prerequisites
 
-1.
-    Install ROS2 galaxtic:
+1. Install python
+
+    <https://www.python.org/downloads/>
+
+2. Install ROS2 galaxtic:
 
     <https://docs.ros.org/en/galactic/Installation/Ubuntu-Development-Setup.html>
+
+3. Install pip
+
+    <https://www.geeksforgeeks.org/how-to-install-pip-on-windows/>
+
+4. In a terminal
+
+    Install dependecies, extra ros-packeages etc.
+
+    ``` bash
+    pip install -r pip install -r requirements.txt 
+    ```
 
 ### ROS packages
 
@@ -61,9 +82,9 @@ Install extra ROS packages
     pip install transformations
     ```
 
-## Dependencies
-
-None yet
+    ``` bash
+    sudo apt install ros-galactic-gazebo-ros-pkgs
+    ```
 
 ## How to setup
 
@@ -79,7 +100,7 @@ None yet
 
     b)
 
-    clone the reposetory:
+    Clone the reposetory:
 
     ``` bash
     git clone https://github.com/kasperfg16/p6-swarm.git
@@ -104,21 +125,15 @@ None yet
     echo 'source ~/ros2_galactic/install/local_setup.bash' >> ~/.bashrc
     ```
 
-    In this command remember to change **PATH**:
+    In this command remember to change **"PATH"** to the **PATH** where you cloned to reposetory to:
 
     ``` bash
     echo 'source PATH/install/setup.bash' >> ~/.bashrc
     ```
 
-    Install the `gazebo_ros_pkgs` package.
-
-    ``` bash
-    sudo apt install ros-galactic-gazebo-ros-pkgs
-    ```
-
     e)
 
-    follow these intructions:
+    Follow these intructions:
     <https://github.com/kajMork/Brick_Feeder/wiki>
 
 ## How to run in simulation
@@ -143,7 +158,17 @@ None yet
     ros2 launch process_robot_navigation navigation_gazebo.launch.py
     ```
 
-3. Open a new terminal
+3. Open a new terminal in root
+
+    a)
+
+    Now you can click the Nav2 Goal button:
+
+    ![plot](arrow_rviz.png)
+
+    Then click on the map to make the robot move to a certain pose on the map:
+
+4. Open a new terminal
 
     a)
 
@@ -154,6 +179,10 @@ None yet
     ```
 
 ## How to run Nav2 on single real robot
+
+1. Go to <https://github.com/kajMork/linorobot2_hardware/blob/master/README.md> and follow the instructions in the README.md
+
+1. Go to the <https://github.com/BenMusak/docking_action_server> reposetory
 
 1. Open a new terminal in root
 
@@ -189,7 +218,7 @@ None yet
     ros2 launch process_robot_bringup bringup.launch.py 
     ```
 
-4. Open a new terminal in root
+4. Open a new terminal i<https://github.com/BenMusak/ROB_vis_aruco>
 
     a)
 
@@ -199,7 +228,7 @@ None yet
     ros2 launch process_robot_navigation navigation_real_robot.launch.py
     ```
 
-5. Follow the readme of https://github.com/BenMusak/ROB_vis_aruco
+5. Follow the readme of <https://github.com/BenMusak/ROB_vis_aruco>
 
 6. Open a new terminal in root
 
