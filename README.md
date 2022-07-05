@@ -90,46 +90,46 @@ Install extra ROS packages
 
 1. In a terminal:
 
-    a)
+    - a)
 
-    Create a workspace folder with a **PATH** of your choice. Remember/write down the **PATH** for later:
+        Create a workspace folder with a **PATH** of your choice. Remember/write down the **PATH** for later:
 
-    ``` bash
-    mkdir PATH
-    ```
+        ``` bash
+        mkdir PATH
+        ```
 
-    b)
+    - b)
 
-    Clone the reposetory:
+        Clone the reposetory:
 
-    ``` bash
-    git clone https://github.com/kasperfg16/p6-swarm.git
-    ```
+        ``` bash
+        git clone https://github.com/kasperfg16/p6-swarm.git
+        ```
 
-    c)
+    - c)
 
-    Go into the workspace folder and build the package:
+        Go into the workspace folder and build the package:
 
-    ``` bash
-    cd PATH
-    mkdir config launch maps meshes models params rviz worlds
-    colcon build
-    ```
+        ``` bash
+        cd PATH
+        mkdir config launch maps meshes models params rviz worlds
+        colcon build
+        ```
 
-    d)
+    - d)
 
-    Add some commands to .bashrc file, so you don't have to source the project every time.
+        Add some commands to .bashrc file, so you don't have to source the project every time.
 
-    ``` bash
-    echo 'source /opt/ros/galactic/setup.bash' >> ~/.bashrc
-    echo 'source ~/ros2_galactic/install/local_setup.bash' >> ~/.bashrc
-    ```
+        ``` bash
+        echo 'source /opt/ros/galactic/setup.bash' >> ~/.bashrc
+        echo 'source ~/ros2_galactic/install/local_setup.bash' >> ~/.bashrc
+        ```
 
-    In this command remember to change **"PATH"** to the **PATH** where you cloned to reposetory to:
+        In this command remember to change **"PATH"** to the **PATH** where you cloned to reposetory to:
 
-    ``` bash
-    echo 'source PATH/install/setup.bash' >> ~/.bashrc
-    ```
+        ``` bash
+        echo 'source PATH/install/setup.bash' >> ~/.bashrc
+        ```
 
     e)
 
@@ -148,47 +148,75 @@ Install extra ROS packages
 
     Go to <https://github.com/BenMusak/ROB_vis_aruco> and follow the instructions in the README.md
 
+### Create a map
+
+In this project we measured and drew a map of our gropu room in a skething software and made a ".pgm" file:
+
+`p6-swarm/src/swarm_process_robot/process_robot_navigation/maps/swarm_group_room_map.pgm`
+
+This .pgm file is loaded using the .yaml file:
+
+`p6-swarm/src/swarm_process_robot/process_robot_navigation/maps/swarm_group_room_map.yaml`
+
+Which is used when launching:
+
+`p6-swarm/src/swarm_process_robot/process_robot_navigation/launch/navigation_real_robot.launch.py`
+
+To use another map either:
+
+- a)
+
+    Measure a room and configure files in similiar fashion.
+
+- b)
+
+    Follow these tutorials on how to use lidars and SLAM.
+
+    1. <https://automaticaddison.com/navigation-and-slam-using-the-ros-2-navigation-stack/#:~:text=ros2%20topic%20list-,Launch%20the%20Robot%20With%20SLAM,-Make%20sure%20the>
+
+    2. <https://www.youtube.com/watch?v=9SS8aeQRXpk>
+
 ## How to run in simulation
 
 1. Open a new terminal in root
 
-    a)
+    - a)
 
-    Launch gazebo, rviz and the NAV2 navigation stack:
+        Launch gazebo, rviz and the NAV2 navigation stack:
 
-    ``` bash
-    ros2 launch process_robot_gazebo gazebo.launch.py 
-    ```
+        ``` bash
+        ros2 launch process_robot_gazebo gazebo.launch.py 
+        ```
 
 2. Open a new terminal in root
 
-    a)
+    - a)
 
-    Launch gazebo, rviz and the NAV2 navigation stack:
+        Launch gazebo, rviz and the NAV2 navigation stack:
 
-    ``` bash
-    ros2 launch process_robot_navigation navigation_gazebo.launch.py
-    ```
+        ``` bash
+        ros2 launch process_robot_navigation navigation_gazebo.launch.py
+        ```
 
 3. Open a new terminal in root
 
-    a)
+    - a)
 
-    Now you can click the Nav2 Goal button:
+        Now you can click the Nav2 Goal button:
 
-    ![plot](arrow_rviz.png)
+        ![plot](arrow_rviz.png)
 
-    Then click on the map to make the robot move to a certain pose on the map:
+        Then click on the map to make the robot move to a certain pose on the map:
 
 4. Open a new terminal
 
-    a)
+    - a)
 
-    Run plotjuggler to
+        Run plotjuggler to
 
-    ``` bash
-    ros2 run plotjuggler plotjuggler
-    ```
+        ``` bash
+        ros2 run plotjuggler plotjuggler
+        ```
 
 ## How to run Nav2 on single real robot
 
@@ -254,7 +282,15 @@ Install extra ROS packages
 
     a)
 
-    Launch a static transform publisher, that publishes transform between "map" and "odom" frame
+    Now you can click the Nav2 Goal button:
+
+    ![plot](arrow_rviz.png)
+
+    Then click on the map to make the robot move to a certain pose on the map:
+
+7. Open a new terminal in root
+
+    a)
 
     ``` bash
     ros2 launch process_robot_commander robot_commander.launch.py
