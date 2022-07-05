@@ -2,7 +2,7 @@
 
 Github for 6th semester project at AAU.
 
-Project report is found here: p6-swarm/P6_Bachelor_projekt.pdf
+Project report is found here: <https://github.com/kasperfg16/p6-swarm/blob/process-robot_nav2/P6_Bachelor_projekt.pdf>
 
 ## Recommmendations
 
@@ -136,6 +136,18 @@ Install extra ROS packages
     Follow these intructions:
     <https://github.com/kajMork/Brick_Feeder/wiki>
 
+    f)
+
+    Go to <https://github.com/kajMork/linorobot2_hardware/blob/master/README.md> and follow the instructions in the README.md
+
+    g)
+
+    Go to <https://github.com/BenMusak/docking_action_server> and follow the instructions in the README.md
+
+    h)
+
+    Go to <https://github.com/BenMusak/ROB_vis_aruco> and follow the instructions in the README.md
+
 ## How to run in simulation
 
 1. Open a new terminal in root
@@ -180,10 +192,6 @@ Install extra ROS packages
 
 ## How to run Nav2 on single real robot
 
-1. Go to <https://github.com/kajMork/linorobot2_hardware/blob/master/README.md> and follow the instructions in the README.md
-
-1. Go to the <https://github.com/BenMusak/docking_action_server> reposetory
-
 1. Open a new terminal in root
 
     a)
@@ -200,9 +208,11 @@ Install extra ROS packages
 
     a)
 
-    Launch a static transform publisher, that publishes transform between "map" and "odom" frame in meters
+    Launch a static transform publisher, that publishes transform between "map" and "odom" frame in meters.
 
-    NOTE: The values in the command below must be chnaged to your application. The tranform is x y z roll pitch yaw
+    In this system you must measure the transform from the "map" frame to the ArUco marker anchor on the floor (Read about the tracking system in the project report)
+
+    NOTE: The values in the command below must be changed to your application. The tranform is x y z roll pitch yaw
 
     ``` bash
     ros2 run tf2_ros static_transform_publisher -1.853 -4.045 0 0 0 0 odom map
@@ -212,13 +222,13 @@ Install extra ROS packages
 
     a)
 
-    Launch the rviz and joint state publisher
+    Launch rviz and joint state publisher
 
     ``` bash
     ros2 launch process_robot_bringup bringup.launch.py 
     ```
 
-4. Open a new terminal i<https://github.com/BenMusak/ROB_vis_aruco>
+4. Open a new terminal
 
     a)
 
