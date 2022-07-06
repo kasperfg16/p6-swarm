@@ -338,11 +338,15 @@ From here it is up to others to further develop the system and use it for whatev
 
 ## Issues
 
+NOTE: this is for the general system, meaning it does also apply to the other reposetories used in this system.
+
 1. Local planner
 
-    The local planner does not plan new plans as seen in this video:
+    The local planner does not plan new plans. The desired behavior is seen in this video:
 
     <https://www.youtube.com/watch?v=dIz_4P2EqKo>
+
+    Actual behavoir: The Nav2 planner only plans on the basis of the global costmap and does not plan around dynamic objects. It does stop in front of them.
 
     Reason is unknown.
 
