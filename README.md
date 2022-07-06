@@ -229,15 +229,16 @@ NOTE: some steps might already be done and does not have to be done again.
 
     This is done by connecting a mouse and keyboard to the robot computer. Then plug a monitor to the robot computer. From here configure the robot computer to logon to the network by default.
 
-3. Follow these intructions: <https://github.com/kajMork/Brick_Feeder/wiki>
+3. Follow these intructions: <https://github.com/kajMork/Brick_Feeder> and follow the instructions in the README.md
 
-4. Go to <https://github.com/kajMork/linorobot2_hardware/blob/master/README.md> and follow the instructions in the README.md
+4. Go to <https://github.com/kajMork/linorobot2_hardware> and follow the instructions in the README.md
 
 5. Go to <https://github.com/BenMusak/docking_action_server> and follow the instructions in the README.md
 
 6. Go to <https://github.com/BenMusak/ROB_vis_aruco> and follow the instructions in the README.md
 
 ## How to run Nav2 on single real robot
+### NOTE: This will not work if the robot is namespaced.
 
 1. Go to <https://github.com/BenMusak/ROB_vis_aruco> and follow the [Start tracking mode](https://github.com/BenMusak/ROB_vis_aruco#:~:text=board%20(6*9)-,Start%20tracking%20mode,-a)  instructions in the README.md
 
@@ -248,7 +249,22 @@ NOTE: some steps might already be done and does not have to be done again.
     Then run the following command
 
     ``` bash
-    python3 Reset_Teensy
+    python3 Reset_Teensy.py
+    ```
+    This will start the micro-ROS docker agent and launch the docking action server node.
+    
+    If you wish to stop the docker agent again, then run the following script:
+    ``` bash
+    python3 StopAllDockers.py
+    ```
+    ### OPTIONAL
+    If you want to pull the latest changes from <https://github.com/BenMusak/docking_action_server> and build it, then run:
+    ``` bash
+    python3 upload_docking_code.py
+    ```
+    If you want to pull the latest changes from <https://github.com/kajMork/linorobot2_hardware> and upload to the teensy, then run:
+    ``` bash
+    python3 upload_teensy_code.py
     ```
 
 2. Open a new terminal in root
@@ -305,7 +321,7 @@ NOTE: some steps might already be done and does not have to be done again.
 
         Then click on the map to make the robot move to a certain pose on the map:
 
-8. Open a new terminal in root
+8. (Optional) If you want to run the docking and brick feeding demo, then Open a new terminal in root and run
 
     - a)
 
