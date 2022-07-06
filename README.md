@@ -86,7 +86,7 @@ Install extra ROS packages
     sudo apt install ros-galactic-gazebo-ros-pkgs
     ```
 
-## How to setup
+## General setup
 
 1. In a terminal:
 
@@ -131,24 +131,7 @@ Install extra ROS packages
         echo 'source PATH/install/setup.bash' >> ~/.bashrc
         ```
 
-    e)
-
-    Follow these intructions:
-    <https://github.com/kajMork/Brick_Feeder/wiki>
-
-    f)
-
-    Go to <https://github.com/kajMork/linorobot2_hardware/blob/master/README.md> and follow the instructions in the README.md
-
-    g)
-
-    Go to <https://github.com/BenMusak/docking_action_server> and follow the instructions in the README.md
-
-    h)
-
-    Go to <https://github.com/BenMusak/ROB_vis_aruco> and follow the instructions in the README.md
-
-### Create a map
+## Create a map
 
 In this project we measured and drew a map of our gropu room in a skething software and made a ".pgm" file:
 
@@ -161,6 +144,8 @@ This .pgm file is loaded using the .yaml file:
 Which is used when launching:
 
 `p6-swarm/src/swarm_process_robot/process_robot_navigation/launch/navigation_real_robot.launch.py`
+
+This is the default map.
 
 To use another map either:
 
@@ -218,110 +203,155 @@ To use another map either:
         ros2 run plotjuggler plotjuggler
         ```
 
+## Extra setup for use with physical robots
+
+1. Setup a router and network
+
+2. Setup the robot computer to connect to the network
+
+    This is done by connecting a mouse and keyboard to the robot computer. Then plug a monitor to the robot computer. From here configure the robot computer to logon to the network by default.
+
+3. Follow these intructions: <https://github.com/kajMork/Brick_Feeder/wiki>
+
+4. Go to <https://github.com/kajMork/linorobot2_hardware/blob/master/README.md> and follow the instructions in the README.md
+
+5. Go to <https://github.com/BenMusak/docking_action_server> and follow the instructions in the README.md
+
+6. Go to <https://github.com/BenMusak/ROB_vis_aruco> and follow the instructions in the README.md
+
 ## How to run Nav2 on single real robot
 
 1. Open a new terminal in root
 
-    a)
+    - a)
 
-    SSH onto the robot computer e.g. via the use of putty SSH client: <https://itsfoss.com/putty-linux/>
+        SSH onto the robot computer e.g. via the use of putty SSH client: <https://itsfoss.com/putty-linux/>
 
-    Then run the following command
+        Then run the following command
 
-    ``` bash
-    python3 Reset_Teensy
-    ```
+        ``` bash
+        python3 Reset_Teensy
+        ```
 
 2. Open a new terminal in root
 
-    a)
+    - a)
 
-    Launch a static transform publisher, that publishes transform between "map" and "odom" frame in meters.
+        Launch a static transform publisher, that publishes transform between "map" and "odom" frame in meters.
 
-    In this system you must measure the transform from the "map" frame to the ArUco marker anchor on the floor (Read about the tracking system in the project report)
+        In this system you must measure the transform from the "map" frame to the ArUco marker anchor on the floor (Read about the tracking system in the project report)
 
-    NOTE: The values in the command below must be changed to your application. The tranform is x y z roll pitch yaw
+        NOTE: The values in the command below must be changed to your application. The tranform is x y z roll pitch yaw
 
-    ``` bash
-    ros2 run tf2_ros static_transform_publisher -1.853 -4.045 0 0 0 0 odom map
-    ```
+        ``` bash
+        ros2 run tf2_ros static_transform_publisher -1.853 -4.045 0 0 0 0 odom map
+        ```
 
 3. Open a new terminal in root
 
-    a)
+    - a)
 
-    Launch rviz and joint state publisher
+        Launch rviz and joint state publisher
 
-    ``` bash
-    ros2 launch process_robot_bringup bringup.launch.py 
-    ```
+        ``` bash
+        ros2 launch process_robot_bringup bringup.launch.py 
+        ```
 
 4. Open a new terminal
 
-    a)
+    - a)
 
-    Launch NAV2 navigation stack:
+        Launch NAV2 navigation stack:
 
-    ``` bash
-    ros2 launch process_robot_navigation navigation_real_robot.launch.py
-    ```
+        ``` bash
+        ros2 launch process_robot_navigation navigation_real_robot.launch.py
+        ```
 
 5. Follow the readme of <https://github.com/BenMusak/ROB_vis_aruco>
 
 6. Open a new terminal in root
 
-    a)
+    - a)
 
-    Start an agent to the ESP32
+        Start an agent to the ESP32
 
-    ``` bash
-    sudo docker run -it --rm --net=host microros/micro-ros-agent:galactic udp4 --port 8888 -v6
-    ```
-
-7. Open a new terminal in root
-
-    a)
-
-    Now you can click the Nav2 Goal button:
-
-    ![plot](arrow_rviz.png)
-
-    Then click on the map to make the robot move to a certain pose on the map:
+        ``` bash
+        sudo docker run -it --rm --net=host microros/micro-ros-agent:galactic udp4 --port 8888 -v6
+        ```
 
 7. Open a new terminal in root
 
-    a)
+    - a)
 
-    ``` bash
-    ros2 launch process_robot_commander robot_commander.launch.py
-    ```
+        Now you can click the Nav2 Goal button:
 
-8. (Suggestion) Open a new terminal
+        ![plot](arrow_rviz.png)
 
-    a)
+        Then click on the map to make the robot move to a certain pose on the map:
 
-    install plotjuggler:
-    <https://snapcraft.io/install/plotjuggler/ubuntu>
+8. Open a new terminal in root
 
-    b)
+    - a)
 
-    Run plotjuggler to visualize data. Plotjuggler FTW!!
+        ``` bash
+        ros2 launch process_robot_commander robot_commander.launch.py
+        ```
 
-    ``` bash
-    ros2 run plotjuggler plotjuggler
-    ```
+9. (Suggestion) Open a new terminal
+
+    - a)
+
+        install plotjuggler:
+        <https://snapcraft.io/install/plotjuggler/ubuntu>
+
+    - b)
+
+        Run plotjuggler to visualize data. Plotjuggler FTW!!
+
+        ``` bash
+        ros2 run plotjuggler plotjuggler
+        ```
+
+## Further development
+
+This system is setup to use a tracking system based on ArUco markers and the nav2 stack to controll robots using firmware on robot. The combined system is used in the main program that is utilized in: `p6-swarm/src/swarm_process_robot/process_robot_commander/commander/robot_commander.py`
+
+From here it is up to others to further develop the system and use it for whatever.
 
 ## Rules
 
-* All files that only relates to your own pc should never be included in commits, make sure to add them to gitignore!.
-* All custom environments should be added to gitignore.
-* If you did not create the branch (or if it the main branch), please to not make direct commits, only pull requests.
-* The code sholud follow the topolegy overview
+- All files that only relates to your own pc should never be included in commits, make sure to add them to gitignore!.
 
-## Links
+- All custom environments should be added to gitignore.
 
 ## Related/inspiration projects
 
 <https://automaticaddison.com/how-to-create-a-simulated-mobile-robot-in-ros-2-using-urdf/>
 
-## Topology overview
+## Issues
+
+1. Local planner
+
+    The local planner does not plan new plans as seen in this video:
+
+    <https://www.youtube.com/watch?v=dIz_4P2EqKo>
+
+    Reason is unknown.
+
+2. IR sensor
+
+    The IR sensors on the physical robot is setup to publish sensor data on the ROS network. The IR sensors used in the project has issues with unkown reason:
+
+    1. Measures strange distances sometimes and have to be reset to work (Turning off the robot and turning it on again).
+
+## TODO
+
+1. Optimization of ease of use
+
+2. Mutliple cameras in the tracking system
+
+3. Multiple sensors on the robot e.g IR or sonar to "look" around the robot.
+
+4. Navigation with multiple robots. e.g create a branch in this reposetory for use with multiple robots
+
+5. General optimization of system and robots
