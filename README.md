@@ -4,6 +4,10 @@ Github for 6th semester project at AAU.
 
 Project report is found here: <https://github.com/kasperfg16/p6-swarm/blob/process-robot_nav2/P6_Bachelor_projekt.pdf>
 
+Video that shows full system test of the robots. NOTE: the small robot has nothing to do with this project. It is just a standin for loading unlaoding LEGO bricks:
+
+[![Everything Is AWESOME](https://img.youtube.com/vi/hx6I-bpXJGk/0.jpg)](https://www.youtube.com/watch?v=hx6I-bpXJGk "Everything Is AWESOME")
+
 ## Recommmendations
 
 1. We recommend to read the project report for an understanding of the system. At least the "Prototype" section.
@@ -135,7 +139,9 @@ Install extra ROS packages
 
 ## Create a map
 
-In this project we measured and drew a map of our gropu room in a skething software and made a ".pgm" file:
+In this project we measured and drew a map of our group room in a skething software and made a ".pgm" file:
+
+![plot](./src/swarm_process_robot/process_robot_navigation/maps/swarm_group_room_map.pgm)
 
 `p6-swarm/src/swarm_process_robot/process_robot_navigation/maps/swarm_group_room_map.pgm`
 
@@ -147,9 +153,11 @@ Which is used when launching:
 
 `p6-swarm/src/swarm_process_robot/process_robot_navigation/launch/navigation_real_robot.launch.py`
 
-This is the default map.
+In `navigation_real_robot.launch.py` The map that is used can be changed by changing `MAP_NAME = 'swarm_group_room_map'`.
 
-To use another map either:
+But you have to create another map and have both a .pgm file with the map and a .yaml file using the map.
+
+To create another map either:
 
 - a)
 
@@ -163,13 +171,15 @@ To use another map either:
 
     2. <https://www.youtube.com/watch?v=9SS8aeQRXpk>
 
+- c) There are probably other methods not covered here.
+
 ## How to run in simulation
 
 1. Open a new terminal in root
 
     - a)
 
-        Launch gazebo, rviz and the NAV2 navigation stack:
+        Launch gazebo and rviz:
 
         ``` bash
         ros2 launch process_robot_gazebo gazebo.launch.py 
@@ -179,13 +189,13 @@ To use another map either:
 
     - a)
 
-        Launch gazebo, rviz and the NAV2 navigation stack:
+        Launch the NAV2 navigation stack:
 
         ``` bash
         ros2 launch process_robot_navigation navigation_gazebo.launch.py
         ```
 
-3. Open a new terminal in root
+3. Go to rviz
 
     - a)
 
@@ -195,11 +205,11 @@ To use another map either:
 
         Then click on the map to make the robot move to a certain pose on the map:
 
-4. Open a new terminal
+4. (Suggestion) Open a new terminal
 
     - a)
 
-        Run plotjuggler to
+        Run plotjuggler to make cool plots to for testing
 
         ``` bash
         ros2 run plotjuggler plotjuggler
