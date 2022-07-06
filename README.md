@@ -8,6 +8,12 @@ Video that shows full system test of the robots. NOTE: the small robot has nothi
 
 [![Everything Is AWESOME](https://img.youtube.com/vi/hx6I-bpXJGk/0.jpg)](https://www.youtube.com/watch?v=hx6I-bpXJGk "Everything Is AWESOME")
 
+## Rules
+
+- All files that only relates to your own pc should never be included in commits, make sure to add them to gitignore!.
+
+- All custom environments should be added to gitignore.
+
 ## Recommmendations
 
 1. We recommend to read the project report for an understanding of the system. At least the "Prototype" section.
@@ -217,6 +223,8 @@ To create another map either:
 
 ## Extra setup for use with physical robots
 
+NOTE: some steps might already be done and does not have to be done again.
+
 1. Setup a router and network
 
 2. Setup the robot computer to connect to the network
@@ -232,6 +240,8 @@ To create another map either:
 6. Go to <https://github.com/BenMusak/ROB_vis_aruco> and follow the instructions in the README.md
 
 ## How to run Nav2 on single real robot
+
+
 
 1. Open a new terminal in root
 
@@ -279,8 +289,6 @@ To create another map either:
         ros2 launch process_robot_navigation navigation_real_robot.launch.py
         ```
 
-5. Follow the readme of <https://github.com/BenMusak/ROB_vis_aruco>
-
 6. Open a new terminal in root
 
     - a)
@@ -326,19 +334,11 @@ To create another map either:
 
 ## Further development
 
-This system is setup to use a tracking system based on ArUco markers and the nav2 stack to controll robots using firmware on robot. The combined system is used in the main program that is utilized in: `p6-swarm/src/swarm_process_robot/process_robot_commander/commander/robot_commander.py`
+This system is setup to use a tracking system based on ArUco markers and the nav2 stack to control robots using firmware on the robot. The combined system is used in the main program that is utilized in: `p6-swarm/src/swarm_process_robot/process_robot_commander/commander/robot_commander.py`
+
+The `robot_commander.py` script can be used to create more advanced behavior using the system created. As of now it is setup to control the behavior seen in the video in the top of the README.
 
 From here it is up to others to further develop the system and use it for whatever.
-
-## Rules
-
-- All files that only relates to your own pc should never be included in commits, make sure to add them to gitignore!.
-
-- All custom environments should be added to gitignore.
-
-## Related/inspiration projects
-
-<https://automaticaddison.com/how-to-create-a-simulated-mobile-robot-in-ros-2-using-urdf/>
 
 ## Issues
 
@@ -356,14 +356,39 @@ From here it is up to others to further develop the system and use it for whatev
 
     1. Measures strange distances sometimes and have to be reset to work (Turning off the robot and turning it on again).
 
+    2. Very noisy output sometimes.
+
 ## TODO
 
-1. Optimization of ease of use
+NOTE: this is for the general system, meaning it does also apply to the other reposetories used in this system.
 
-2. Mutliple cameras in the tracking system
+1. Optimization of ease of use
+    - a) Launching everything.
+    - b) User interface e.g. web based.
+    - c) Multiple systems/reposetories could be fused into one.
+    - d) Starting the robots.
+    - e) Configuring the robots.
+    - f) Updateting the robots software and firmware.
+        - Right now there are scripts on the robot computer that when run the latest github update is downlaoded to the robot. This updating process is decribed in the READMEs:
+
+            1. <https://github.com/kajMork/linorobot2_hardware/blob/master/README.md>
+
+            2. <https://github.com/BenMusak/docking_action_server>
+
+            These scripts are not a part of the reposetories. It would be very benificial if they were.
+
+    - f) etc.
+
+2. Mutliple cameras in the tracking system.
 
 3. Multiple sensors on the robot e.g IR or sonar to "look" around the robot.
 
-4. Navigation with multiple robots. e.g create a branch in this reposetory for use with multiple robots
+4. Navigation with multiple robots. e.g create a branch in this reposetory for use with multiple robots.
 
-5. General optimization of system and robots
+5. General optimization of system and robots.
+
+## Related/inspiration projects
+
+1. <https://automaticaddison.com/how-to-create-a-simulated-mobile-robot-in-ros-2-using-urdf/>
+
+2. <https://github.com/linorobot/linorobot2>
