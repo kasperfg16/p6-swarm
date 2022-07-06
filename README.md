@@ -147,8 +147,6 @@ Install extra ROS packages
 
 In this project we measured and drew a map of our group room in a skething software and made a ".pgm" file:
 
-![plot](./src/swarm_process_robot/process_robot_navigation/maps/swarm_group_room_map.pgm)
-
 `p6-swarm/src/swarm_process_robot/process_robot_navigation/maps/swarm_group_room_map.pgm`
 
 This .pgm file is loaded using the .yaml file:
@@ -241,19 +239,17 @@ NOTE: some steps might already be done and does not have to be done again.
 
 ## How to run Nav2 on single real robot
 
+1. Go to <https://github.com/BenMusak/ROB_vis_aruco> and follow the [Start tracking mode](https://github.com/BenMusak/ROB_vis_aruco#:~:text=board%20(6*9)-,Start%20tracking%20mode,-a)  instructions in the README.md
 
+1. SSH onto the robot computer
 
-1. Open a new terminal in root
+    SSH onto the robot computer e.g. via the use of putty SSH client: <https://itsfoss.com/putty-linux/>
 
-    - a)
+    Then run the following command
 
-        SSH onto the robot computer e.g. via the use of putty SSH client: <https://itsfoss.com/putty-linux/>
-
-        Then run the following command
-
-        ``` bash
-        python3 Reset_Teensy
-        ```
+    ``` bash
+    python3 Reset_Teensy
+    ```
 
 2. Open a new terminal in root
 
