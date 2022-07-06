@@ -336,6 +336,12 @@ The `robot_commander.py` script can be used to create more advanced behavior usi
 
 From here it is up to others to further develop the system and use it for whatever.
 
+Whenever changes are made, remember to build this ROS package:
+
+``` bash
+colcon build
+```
+
 ## Issues
 
 NOTE: this is for the general system, meaning it does also apply to the other reposetories used in this system.
