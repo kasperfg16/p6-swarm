@@ -131,6 +131,8 @@ Install extra ROS packages
         echo 'source PATH/install/setup.bash' >> ~/.bashrc
         ```
 
+        Now everytime you open a terminal in root it automaticly sources the project.
+
 ## Create a map
 
 In this project we measured and drew a map of our gropu room in a skething software and made a ".pgm" file:
