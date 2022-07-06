@@ -6,7 +6,7 @@ Project report is found here: <https://github.com/kasperfg16/p6-swarm/blob/proce
 
 ## Recommmendations
 
-1. We recommend to read the project report for an understanding of the system.
+1. We recommend to read the project report for an understanding of the system. At least the "Prototype" section.
 
 2. This project is using ROS2 galactic on ubuntu 20.04. Other configurations are used at own dispare and misery
 
